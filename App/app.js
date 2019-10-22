@@ -2,9 +2,11 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var logger = require('morgan');
+const pg = require('pg');
+var app = express();
 
-/* --- V7: Using dotenv     --- */
 require('dotenv').config();
 
 /* PAGES FOR THE PROJECT */
@@ -14,30 +16,13 @@ var driverRouter = require('./routes/driver');
 var awaitingApprovalRouter = require('./routes/awaitingApproval');
 var registerDriverRouter = require('./routes/registerDriver');
 var ridesRouter = require('./routes/rides');
-var homepageRouter = require('./routes/homepage')
+var homepageRouter = require('./routes/homepage');
 
-/* --- V2: Adding Web Pages --- */
-var aboutRouter = require('./routes/about');
-/* ---------------------------- */
 
-/* --- V3: Basic Template   --- */
-var tableRouter = require('./routes/table');
-var loopsRouter = require('./routes/loops');
-/* ---------------------------- */
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+var testPageRouter = require('./routes/testPage');
 
-/* --- V4: Database Connect --- */
-var selectRouter = require('./routes/select');
-/* ---------------------------- */
-
-/* --- V5: Adding Forms     --- */
-var formsRouter = require('./routes/forms');
-/* ---------------------------- */
-
-/* --- V6: Modify Database  --- */
-var insertRouter = require('./routes/insert');
-/* ---------------------------- */
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,29 +42,9 @@ app.use('/registerDriver', registerDriverRouter);
 app.use('/rides', ridesRouter);
 app.use('/homepage', homepageRouter);
 
-/* --- V2: Adding Web Pages --- */
-app.use('/about', aboutRouter);
-/* ---------------------------- */
 
-/* --- V3: Basic Template   --- */
-app.use('/table', tableRouter);
-app.use('/loops', loopsRouter);
-/* ---------------------------- */
+app.use('/testpage', testPageRouter);
 
-/* --- V4: Database Connect --- */
-app.use('/select', selectRouter);
-/* ---------------------------- */
-
-/* --- V5: Adding Forms     --- */
-app.use('/forms', formsRouter);
-/* ---------------------------- */
-
-/* --- V6: Modify Database  --- */
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/insert', insertRouter);
-/* ---------------------------- */
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
