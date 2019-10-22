@@ -32,7 +32,31 @@
     </header>
 
     <main role="main" class="inner cover">
-      <p id="quest-denied" class="lead">this is test page</p>
+      <h1>CS2102: <%= title%></h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">username</th>
+              <th scope="col">pickup</th>
+              <th scope="col">dropoff</th>
+              <th scope="col">ride date</th>
+              <th scope="col">start time</th>
+              <th scope="col">capacity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i=0; i<data.length; i++) { %>
+            <tr>
+              <td><%= data[i].username%></td>
+              <td><%= data[i].pickup%></td>
+              <td><%= data[i].dropoff%></td>
+              <td><%= data[i].ride_date%></td>
+              <td><%= data[i].start_time%></td>
+              <td><%= data[i].capacity%></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
     </main>
 
     </div>
