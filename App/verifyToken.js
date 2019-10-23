@@ -1,23 +1,16 @@
 // export to every route file to use as middle ware
+const jwt = require("jsonwebtoken")
 
-// middleware to verify our token --- should export 
-function verifyToken(req, res, next) {
-    var token = req.headers['access-token'];
-    // token undefined
-    if(!token){
-        res.sendStatus(403);
+secretOrKey = "Hi,Im_a_secret_key"
+module.exports = function(req,res,next){
+    const token = req.header('Authorization');
+    if(!token) return res.status(401).send("Access Denied");
+
+    try{
+        const verified = jwt.verify(token, secretOrKey);
+        req.user = verified;
+        next();
+    }catch(err){
+        return res.status(400).send("Invalid token")
     }
-
-    jwt.verify(token, config.secret, function(err, decoded){
-      if(err){
-        return res.status(403).send({ auth: false, message: 'Failed to authenticate token.' });
-      }
-    
-      // if everything good, save to request for use in other routes
-      req.userId = decoded.id;
-      next();
-
-    });
 }
-
-module.exports.verify = verifyToken;
