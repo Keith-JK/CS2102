@@ -17,6 +17,7 @@ var awaitingApprovalRouter = require('./routes/awaitingApproval');
 var registerDriverRouter = require('./routes/registerDriver');
 var ridesRouter = require('./routes/rides');
 var homepageRouter = require('./routes/homepage');
+var addRideRouter = require('./routes/addRide');
 
 
 app.use(bodyParser.json());
@@ -43,7 +44,7 @@ app.use('/awaitingApproval', awaitingApprovalRouter);
 app.use('/registerDriver', registerDriverRouter);
 app.use('/rides', ridesRouter);
 app.use('/homepage', homepageRouter);
-
+app.use('/addRide', addRideRouter);
 
 app.use('/testpage', testPageRouter);
 

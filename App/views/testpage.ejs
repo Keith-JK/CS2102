@@ -33,7 +33,20 @@
 
     <main role="main" class="inner cover">
       <h1>CS2102: <%= title%></h1>
-        <table class="table">
+      <div class="container">
+        <% for(var i=0; i<data.length; i++) { %>
+            <div class="card" style="width: 15rem;">
+                <div class="card-body bg-dark">
+                  <h5 class="card-title"><%= data[i].pickup%> TO <%= data[i].dropoff%></h5>
+                  <p class="card-text">Start time: <%= data[i].start_time%></p><br>
+                  <p class="card-text">Capacity: <%= data[i].capacity%></p>
+                  <a href="#" class="btn btn-primary">Bid for ride</a>
+
+                </div>
+            </div>   
+        <% } %>
+      </div>  
+     <!--   <table class="table">
           <thead>
             <tr>
               <th scope="col">username</th>
@@ -56,7 +69,7 @@
             </tr>
             <% } %>
           </tbody>
-        </table>
+        </table>.  -->
     </main>
 
     </div>

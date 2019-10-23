@@ -207,3 +207,8 @@ body {
 .searchbar {
   margin-bottom: 250px;
 }
+
+/* to make the ride diplay cards appear next to each other */
+.card {
+  display:inline-block;
+}

@@ -25,23 +25,6 @@ router.post('/', function(req, res, next) {
 	var model    = req.body.model;
 	var capacity = req.body.capacity;
 
-	console.log(`${platenumber} testing ${model}`);
-	/*
-	// Construct Specific SQL Query
-	var insert_query = sql_query1 + "('" + plateNumber + "','" + model + "','" + capacity + "');";
-	insert_query = insert_query + "\n";
-	
-	// insert_query = insert_query + sql_query2 + "('" + username + "','" + plateNumber + "');";
-	insert_query = insert_query + "\n";
-
-	// insert_query = insert_query + sql_query3 + "('Z','" + username + "');";
-	insert_query = insert_query + "\n";
-
-	// insert_query = insert_query + sql_query4 + "('" + username + "','" + name + "');";
-	insert_query = insert_query + "\n";
-	*/
-
-
 	pool.query(sql_query.query.add_car, [platenumber, model, capacity], (err, data) => {
 		if(err) {
 			console.error("Error in adding user", err);

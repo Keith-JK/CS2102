@@ -32,18 +32,23 @@
     <main role="main" class="awaitingApproval">
       <div>
         <H1 class="text-center title" ><%= title%></H1>
-        <form action="registerDriver" id="registerDriverForm" method="post">
+        <form action="addRide" id="addRideForm" method="post">
           <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Carplate Number</label>
-            <input type="text" class="form-control col-sm-7" id="platenumber" name="platenumber" placeholder="Enter your carplate number">
+            <label for="name" class="col-sm-2 col-form-label">Start location</label>
+            <input type="text" class="form-control col-sm-3" id="pickup" name="pickup" placeholder="Enter your pickup point">
+         
+            <label for="name" class="col-sm-2 col-form-label">End location</label>
+            <input type="text" class="form-control col-sm-3" id="dropoff" name="dropoff" placeholder="Enter your dropoff point">
           </div>
           <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Car model</label>
-            <input type="text" class="form-control col-sm-7" id="model" name="model" placeholder="Enter your car model">
+            <label for="name" class="col-sm-2 col-form-label">Date of ride</label> 
+            <input type="date" class="form-control col-sm-3" id="dateOfRide" name="dateOfRide" placeholder="date">
+            <label for="name" class="col-sm-2 col-form-label">Time of ride</label> 
+            <input type="time" class="form-control col-sm-3" id="timeOfRide" name="timeOfRide" placeholder="time">
           </div>
           <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Capacity</label> 
-            <input type="text" class="form-control col-sm-7" id="capacity" name="capacity" placeholder="Enter your car Capacity">
+            <label for="name" class="col-sm-2 col-form-label">No of seats</label> 
+            <input type="text" class="form-control col-sm-3" id="capacity" name="capacity" placeholder="Enter seats available">
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
        </form>
@@ -54,7 +59,7 @@
     <script>
       (function() {
         window.addEventListener('load', function() {
-          var forms = [document.getElementById('registerDriverForm')];
+          var forms = [document.getElementById('addRideForm')];
           var validation = Array.prototype.filter.call(forms, function(form) {
             form.addEventListener('submit', check, false);
           });

@@ -8,13 +8,13 @@ sql.query = {
 	verified_riders: '',
 	add_user: '',
 	add_driver: '',
+	add_ride: 'INSERT INTO rides (username, pickup, dropoff, ride_date, start_time, capacity) VALUES (\'A\',$1,$2,$3,$4,$5)',
 	userpass: '',
-	add_car: 'INSERT INTO car (platenumber, model, capacity) VALUES($1,$2, $3)',
-	all_car: 'SELECT * FROM car'
-
-
-
-
+	add_car: 'INSERT INTO car (platenumber, model, capacity) VALUES($1,$2,$3)',
+	all_car: 'SELECT * FROM car',
+	check_driver_verified: '', 
+	check_user_registered: '',
+	add_user: 'INSERT INTO username_password (username, password, status, first_name, last_name) VALUES ($1,$2,\'Bronze\',$3,$4)',
 	/*
 	// Counting & Average
 	count_play: 'SELECT COUNT(winner) FROM game_plays WHERE user1=$1 OR user2=$1',
