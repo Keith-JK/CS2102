@@ -1,3 +1,4 @@
+const sql_query = require('../sql');
 var express = require('express');
 var router = express.Router();
 
@@ -20,10 +21,12 @@ var sql_query4 = 'INSERT INTO Driver VALUES';
 // POST
 router.post('/', function(req, res, next) {
 	// Retrieve Information
-	var plateNumber  = req.body.plateNumber;
+	var platenumber  = req.body.platenumber;
 	var model    = req.body.model;
 	var capacity = req.body.capacity;
-	
+
+	console.log(`${platenumber} testing ${model}`);
+	/*
 	// Construct Specific SQL Query
 	var insert_query = sql_query1 + "('" + plateNumber + "','" + model + "','" + capacity + "');";
 	insert_query = insert_query + "\n";
@@ -36,9 +39,16 @@ router.post('/', function(req, res, next) {
 
 	// insert_query = insert_query + sql_query4 + "('" + username + "','" + name + "');";
 	insert_query = insert_query + "\n";
+	*/
 
-	pool.query(insert_query, (err, data) => {
-		res.redirect('/select')
+
+	pool.query(sql_query.query.add_car, [platenumber, model, capacity], (err, data) => {
+		if(err) {
+			console.error("Error in adding user", err);
+			res.redirect('/');
+		}
+		res.redirect('/homepage')
 	});
+
 });
 module.exports = router;

@@ -9,7 +9,8 @@ sql.query = {
 	add_user: '',
 	add_driver: '',
 	userpass: '',
-	
+	add_car: 'INSERT INTO car (platenumber, model, capacity) VALUES($1,$2, $3)',
+	all_car: 'SELECT * FROM car'
 
 
 

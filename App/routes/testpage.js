@@ -15,6 +15,7 @@ pool.query('SELECT * FROM rides', (err, res) => {
   var result = res;
 })
 
+// get testpage
 router.get('/', function(req, res, next) {
 	pool.query(sql_query.query.all_rides, (err, data) => {
 		if (err) {
@@ -23,11 +24,6 @@ router.get('/', function(req, res, next) {
 		res.render('testpage', { title: 'testing page', data: data.rows });
 	});
 });
-
-/* GET testpage 
-router.get('/', function(req, res, next) {
-	res.render('testpage', { title: 'express'});
-});*/
 
 
 module.exports = router;

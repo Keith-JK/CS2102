@@ -40,7 +40,8 @@ CREATE TABLE Admin (
 CREATE TABLE Verify (
 	auname varchar(100) REFERENCES Admin,
 	duname varchar(100) REFERENCES Driver,
-	since date DEFAULT NULL
+	since date DEFAULT NULL,
+	is_verified boolean DEFAULT FALSE
 );
 
 CREATE TABLE Car (

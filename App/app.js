@@ -24,14 +24,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var testPageRouter = require('./routes/testPage');
 
 
-// view engine setup
+// set views directory to 'views' folder 
 app.set('views', path.join(__dirname, 'views'));
+// set view engine to ejs
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+//set folder for css and javascript
 app.use(express.static(path.join(__dirname, 'public')));
 
 /* FOR PROJECT */
