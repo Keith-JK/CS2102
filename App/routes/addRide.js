@@ -15,8 +15,8 @@ router.get('/', function(req, res, next) {
 // POST
 router.post('/', function(req, res, next) {
 	// Retrieve Information
-	var pickup  = req.body.pickup;
-	var dropoff = req.body.dropoff;
+	var pickup  = req.body.pickup.toUpperCase();
+	var dropoff = req.body.dropoff.toUpperCase();
 	var capacity = req.body.capacity;
 	var dateOfRide = req.body.dateOfRide;
 	var timeOfRide = req.body.timeOfRide;

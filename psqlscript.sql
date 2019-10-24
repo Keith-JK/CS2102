@@ -166,42 +166,42 @@ INSERT INTO Drives VALUES ('C', 'C856');
 INSERT INTO Drives VALUES ('D', 'D874');
 INSERT INTO Drives VALUES ('E', 'E390');
 
-INSERT INTO Rides VALUES ('A', 'East', 'North', '1-1-2019', '12:00:00', 2);
-INSERT INTO Rides VALUES ('A', 'East', 'North', '1-1-2019', '16:00:00', 2);
-INSERT INTO Rides VALUES ('B', 'West', 'Central', '1-1-2019', '14:00:00', 2);
-INSERT INTO Rides VALUES ('B', 'West', 'Central', '1-1-2019', '16:00:00', 2);
-INSERT INTO Rides VALUES ('C', 'North', 'South', '1-1-2019', '16:00:00', 2);
-INSERT INTO Rides VALUES ('D', 'South', 'West', '1-1-2019', '12:00:00', 2);
-INSERT INTO Rides VALUES ('E', 'Central', 'East', '1-1-2019', '14:00:00', 2);
+INSERT INTO Rides VALUES ('A', 'EAST', 'NORTH', '1-1-2019', '12:00:00', 2);
+INSERT INTO Rides VALUES ('A', 'EAST', 'NORTH', '1-1-2019', '16:00:00', 2);
+INSERT INTO Rides VALUES ('B', 'WEST', 'CENTRAL', '1-1-2019', '14:00:00', 2);
+INSERT INTO Rides VALUES ('B', 'WEST', 'CENTRAL', '1-1-2019', '16:00:00', 2);
+INSERT INTO Rides VALUES ('C', 'North', 'SOUTH', '1-1-2019', '16:00:00', 2);
+INSERT INTO Rides VALUES ('D', 'SOUTH', 'WEST', '1-1-2019', '12:00:00', 2);
+INSERT INTO Rides VALUES ('E', 'CENTRAL', 'EAST', '1-1-2019', '14:00:00', 2);
 
 -- test for driver history
-INSERT INTO Rides VALUES ('E', 'Central', 'East', '1-1-2019', '09:00:00', 2, true);
+INSERT INTO Rides VALUES ('E', 'CENTRAL', 'EAST', '1-1-2019', '09:00:00', 2, true);
 
 -- test for bid > capacity + different prices
-INSERT INTO Bids VALUES ('E', 'A', 'East', 'North', '1-1-2019', '12:00:00', '10');
-INSERT INTO Bids VALUES ('F', 'A', 'East', 'North', '1-1-2019', '12:00:00', '9');
-INSERT INTO Bids VALUES ('G', 'A', 'East', 'North', '1-1-2019', '12:00:00', '8');
+INSERT INTO Bids VALUES ('E', 'A', 'EAST', 'NORTH', '1-1-2019', '12:00:00', '10');
+INSERT INTO Bids VALUES ('F', 'A', 'EAST', 'NORTH', '1-1-2019', '12:00:00', '9');
+INSERT INTO Bids VALUES ('G', 'A', 'EAST', 'NORTH', '1-1-2019', '12:00:00', '8');
 
-INSERT INTO Bids VALUES ('H', 'A', 'East', 'North', '1-1-2019', '16:00:00', '10');
-INSERT INTO Bids VALUES ('I', 'A', 'East', 'North', '1-1-2019', '16:00:00', '9');
-INSERT INTO Bids VALUES ('J', 'A', 'East', 'North', '1-1-2019', '16:00:00', '8');
+INSERT INTO Bids VALUES ('H', 'A', 'EAST', 'NORTH', '1-1-2019', '16:00:00', '10');
+INSERT INTO Bids VALUES ('I', 'A', 'EAST', 'NORTH', '1-1-2019', '16:00:00', '9');
+INSERT INTO Bids VALUES ('J', 'A', 'EAST', 'NORTH', '1-1-2019', '16:00:00', '8');
 
 -- test for bid < capacity
-INSERT INTO Bids VALUES ('E', 'B', 'West', 'Central', '1-1-2019', '14:00:00', '10');
+INSERT INTO Bids VALUES ('E', 'B', 'WEST', 'Central', '1-1-2019', '14:00:00', '10');
 
 -- test for all 3 bid same price same ride but > capacity
-INSERT INTO Bids VALUES ('E', 'C', 'North', 'South', '1-1-2019', '16:00:00', '10');
-INSERT INTO Bids VALUES ('F', 'C', 'North', 'South', '1-1-2019', '16:00:00', '10');
-INSERT INTO Bids VALUES ('G', 'C', 'North', 'South', '1-1-2019', '16:00:00', '10');
+INSERT INTO Bids VALUES ('E', 'C', 'NORTH', 'SOUTH', '1-1-2019', '16:00:00', '10');
+INSERT INTO Bids VALUES ('F', 'C', 'NORTH', 'SOUTH', '1-1-2019', '16:00:00', '10');
+INSERT INTO Bids VALUES ('G', 'C', 'NORTH', 'SOUTH', '1-1-2019', '16:00:00', '10');
 
 -- test for is_win = true for history
-INSERT INTO Bids VALUES ('H', 'E', 'Central', 'East', '1-1-2019', '09:00:00','10', true);
-INSERT INTO Bids VALUES ('I', 'E', 'Central', 'East', '1-1-2019', '09:00:00','9', true);
-INSERT INTO Bids VALUES ('J', 'E', 'Central', 'East', '1-1-2019', '09:00:00','8');
+INSERT INTO Bids VALUES ('H', 'E', 'CENTRAL', 'EAST', '1-1-2019', '09:00:00','10', true);
+INSERT INTO Bids VALUES ('I', 'E', 'CENTRAL', 'EAST', '1-1-2019', '09:00:00','9', true);
+INSERT INTO Bids VALUES ('J', 'E', 'CENTRAL', 'EAST', '1-1-2019', '09:00:00','8');
 
 
-INSERT INTO Ratings VALUES ('H', 'E', '5', 'Central', 'East', '1-1-2019', '09:00:00');
-INSERT INTO Ratings VALUES ('I', 'E', '2', 'Central', 'East', '1-1-2019', '09:00:00');
+INSERT INTO Ratings VALUES ('H', 'E', '5', 'CENTRAL', 'EAST', '1-1-2019', '09:00:00');
+INSERT INTO Ratings VALUES ('I', 'E', '2', 'CENTRAL', 'EAST', '1-1-2019', '09:00:00');
 
 INSERT INTO Likes VALUES ('E', 'A');
 INSERT INTO Likes VALUES ('F', 'B');
@@ -211,7 +211,7 @@ INSERT INTO Likes VALUES ('I', 'E');
 INSERT INTO Likes VALUES ('J', 'A');
 
 
-INSERT INTO Bookmarks VALUES ('F', 'North', 'South');
-INSERT INTO Bookmarks VALUES ('G', 'North', 'South');
-INSERT INTO Bookmarks VALUES ('H', 'Central', 'East');
-INSERT INTO Bookmarks VALUES ('I', 'East', 'North');
+INSERT INTO Bookmarks VALUES ('F', 'NORTH', 'SOUTH');
+INSERT INTO Bookmarks VALUES ('G', 'NORTH', 'SOUTH');
+INSERT INTO Bookmarks VALUES ('H', 'CENTRAL', 'EAST');
+INSERT INTO Bookmarks VALUES ('I', 'EAST', 'NORTH');

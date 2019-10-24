@@ -4,7 +4,7 @@ const sql = {}
 sql.query = {
 
 
-	all_rides: 'SELECT * FROM RIDES',
+	all_rides: 'SELECT * FROM RIDES WHERE is_complete = FALSE',
 	add_user: '',
 	add_driver: '',
 	add_ride: 'INSERT INTO rides (username, pickup, dropoff, ride_date, start_time, capacity) VALUES (\'A\',$1,$2,$3,$4,$5)',
@@ -15,7 +15,9 @@ sql.query = {
 	check_driver_car: '', //check if driver has car
 	check_user_registered: '', //return one row which is the user is registered, 0 rows if dont have
 	add_user: 'INSERT INTO username_password (username, password, status, first_name, last_name) VALUES ($1,$2,\'Bronze\',$3,$4)',
-	driver_rating: ''
+	driver_rating: '',
+	rides_search: 'SELECT * FROM rides r WHERE r.pickup = $1 AND r.dropoff = $2',
+	individualRide: 'SELECT * FROM rides r WHERE r.pickup = $1 AND r.dropoff = $2 AND ride_date = $3 AND r.driver = $4'
 
 
 	/*

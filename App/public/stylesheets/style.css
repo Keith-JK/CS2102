@@ -209,8 +209,7 @@ body {
   display:inline-block;
 }
 
-/* for the searchbar at the rides page */
-.container {
-  margin-bottom: 50px;
-  padding-top: 50px;
+/* for the searchbar to be fixed in postion */
+.searchbar {
+  position: sticky;
 }

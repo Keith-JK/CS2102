@@ -8,16 +8,21 @@ const pool = new Pool ({
 });
 
 
-pool.query('SELECT * FROM rides', (err, res) => {
-  if (err) {
-    throw err
-  }
-  var result = res;
-})
-
 // get testpage
 router.get('/', function(req, res, next) {
 	pool.query(sql_query.query.all_rides, (err, data) => {
+		if (err) {
+    		throw err
+  		}
+		res.render('rides', { title: 'testing page', data: data.rows });
+	});
+});
+
+router.post('/', function(req, res, next) {
+	var start_location = req.body.start_location.toUpperCase();
+	var end_location = req.body.end_location.toUpperCase();
+	
+	pool.query(sql_query.query.rides_search, [start_location, end_location], (err, data) => {
 		if (err) {
     		throw err
   		}

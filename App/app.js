@@ -22,6 +22,7 @@ var registerDriverRouter = require('./routes/registerDriver');
 var ridesRouter = require('./routes/rides');
 var homepageRouter = require('./routes/homepage');
 var addRideRouter = require('./routes/addRide'); 
+var individualRideRouter = require('./routes/individualRide');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,6 +50,7 @@ app.use('/awaitingApproval', awaitingApprovalRouter);
 app.use('/rides', ridesRouter);
 app.use('/homepage', homepageRouter);
 app.use('/addRide', addRideRouter);
+app.use('/individualRide', individualRideRouter);
 
 // app.use('/testpage', testPageRouter);
 

@@ -24,3 +24,11 @@ function check(event) {
 		return false;
 	}
 }
+
+function getdate(date) {
+        var month = date.getUTCMonth() + 1; //months from 1-12
+        var day = date.getUTCDate();
+        var year = date.getUTCFullYear();
+        newdate = year + "/" + month + "/" + day;
+        return newdate;
+      }
