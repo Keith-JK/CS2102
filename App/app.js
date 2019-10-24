@@ -7,7 +7,7 @@ var logger = require('morgan');
 const pg = require('pg');
 // for hashing -- havent use
 var bcrypt = require('bcryptjs');
-
+var auth = require('./verifyToken')
 // initialise the application 
 var app = express();
 
@@ -48,7 +48,7 @@ app.use('/registerDriver', registerDriverRouter);
 app.use('/driver', driverRouter);
 app.use('/awaitingApproval', awaitingApprovalRouter);
 app.use('/rides', ridesRouter);
-app.use('/homepage', homepageRouter);
+app.use('/homepage', auth, homepageRouter);
 app.use('/addRide', addRideRouter);
 app.use('/individualRide', individualRideRouter);
 
@@ -58,7 +58,6 @@ app.use('/individualRide', individualRideRouter);
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var passport = require("passport");
 app.use(passport.initialize());
-var auth = require('./verifyToken')
 
 // passport jwt
 var passportJWT = require("passport-jwt");
@@ -71,10 +70,12 @@ jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 // this is secret key, choose a suitable secret key to encrypt
 //secretOrKey = process.env.SECRET_KEY; 
 jwtOptions.secretOrKey = "Hi,Im_a_secret_key";
+jwtOptions.audience = "http://localhost:3000/secret"
+
 
 passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, done) {
   console.log('payload received', jwt_payload);
-  return (done,user)
+  done(null,user)
   /* // database call -- this is a mongooseDB method, idk whats the Postgres equivalent
   User.findOne({id: jwt_payload.id}, function(err, user) {
     if (err) {
@@ -89,25 +90,26 @@ passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, done) {
       }
     }); */
 }));
-    
+
 // LOGIN 
-app.post("/login", function(req, res) {
-  console.log(req.body)
-  const username = req.body.username
-  const password = req.body.password
+app.get("/login", function(req, res) {
+  const username = req.query.username
+  const password = req.query.password
+  /* const username = req.body.username
+  const password = req.body.password */
   console.log(username)
   console.log(password)
-  if(!username || !password){
+  /* if(!username || !password){
     //res.send("Empty fields! Famine is coming!")
     res.send("The fields are empty, go grow some rice")
-  }
+  } */
 
   // usually this would be a database call: -------------------------------TODO database call {name:userid, password:password} ----------------------------------
   // find the user object using the req.body.name to do the SQL query
   // MOCK USER FOR TESTING PURPOSES
   const user = {
     id: 1,
-    username: 'user',
+    username: 'abc',
     email: 'user@gmail.com',
     password: "123"
   }
@@ -132,11 +134,13 @@ app.post("/login", function(req, res) {
         const decode = jwt.decode(token)
         // pass on the token
         console.log("token", token)
-        res.json({
+        /* res.json({
           success:true,
           token:"Bearer " + token,
           decode:decode
-        });
+        }); */
+        res.header('Authorization', "test").header('user', username).render('homepage', {title:username, token:token})
+        // res.redirect("/secret")
       }
     });
   }

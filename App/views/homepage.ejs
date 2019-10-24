@@ -20,7 +20,7 @@
     <div class="d-flex w-100 h-100 mx-auto flex-column">
     <header class="masthead mb-auto">
     <div class="inner">
-      <h3 class="masthead-brand" data-desc="You are already at homepage!">Grab <%= title%></h3>
+      <h3 class="masthead-brand" data-desc="You are already at homepage!">Grab</h3>
       <nav class="nav nav-masthead justify-content-center">
       <a href="/bookmarks" class="nav-link active">Bookmarks</a>
       <a href="/favourite_drivers" class="nav-link active">Favourite drivers</a>
@@ -32,7 +32,7 @@
     </header>
 
     <main role="main" class="inner cover">
-      <p id="quest-denied" class="lead">Hi there _____, What are you doing today?</p>
+      <p id="quest-denied" class="lead">Hi there <%= title%>, What are you doing today?</p>
         <div class="btn-group masthead" role="group" aria-label="buttons">
           <button type="button" onclick="window.location.href='/driver'" class="btn btn-light btn-lg mr-3 homepagebutton">driving</button>
           <button type="button" onclick="window.location.href='/rides'" class="btn btn-dark btn-lg homepagebutton">extra in other ppl car</button>
