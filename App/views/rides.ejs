@@ -30,15 +30,27 @@
             <a class="dropdown-item" href="">History</a>
           </div>
     </header>
-
-    <main role="main" class="awaitingApproval">
-       <div class="input-group title">
-        <input type="text" aria-label="First name" class="form-control" placeholder="start location">
-        <input type="text" aria-label="Last name" class="form-control" placeholder="end location">
+    <br/>
+    <br/>
+    <main role="main">
+       <form class="input-group" action="rides" method="post">
+        <input type="text" aria-label="First name" class="form-control" name="start_location" placeholder="start location">
+        <input type="text" aria-label="Last name" class="form-control" name="end_location" placeholder="end location">
         <div class="input-group-prepend">
-          <button class="btn btn-outline-secondary" type="button" id="Search">Search</button>
+          <button class="btn btn-outline-light" type="submit" id="Search">Search</button>
         </div>
-      </div>
+      </form>
+      <div class="container">
+        <% for(var i=0; i<data.length; i++) { %>
+            <div class="card" style="width: 15rem;">
+                <div class="card-body bg-dark">
+                  <h5 class="card-title"><%= data[i].pickup%> TO <%= data[i].dropoff%></h5>
+                  <p class="card-text">Start time: <%= data[i].start_time%></p><br>
+                  <p class="card-text">Capacity: <%= data[i].capacity%></p>
+                  <a href="#" class="btn btn-primary">Bid for ride</a>
+                </div>
+            </div>   
+        <% } %>
     </main>
 
     </div>

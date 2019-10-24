@@ -5,16 +5,19 @@ sql.query = {
 
 
 	all_rides: 'SELECT * FROM RIDES',
-	verified_riders: '',
 	add_user: '',
 	add_driver: '',
 	add_ride: 'INSERT INTO rides (username, pickup, dropoff, ride_date, start_time, capacity) VALUES (\'A\',$1,$2,$3,$4,$5)',
 	userpass: '',
 	add_car: 'INSERT INTO car (platenumber, model, capacity) VALUES($1,$2,$3)',
 	all_car: 'SELECT * FROM car',
-	check_driver_verified: '', 
-	check_user_registered: '',
+	check_driver_verified: '', //return one row which is the driver if verified, 0 rows if dont have
+	check_driver_car: '', //check if driver has car
+	check_user_registered: '', //return one row which is the user is registered, 0 rows if dont have
 	add_user: 'INSERT INTO username_password (username, password, status, first_name, last_name) VALUES ($1,$2,\'Bronze\',$3,$4)',
+	driver_rating: ''
+
+
 	/*
 	// Counting & Average
 	count_play: 'SELECT COUNT(winner) FROM game_plays WHERE user1=$1 OR user2=$1',

@@ -1,20 +1,29 @@
+const sql_query = require('../sql');
 var express = require('express');
 var router = express.Router();
-//const { Pool } = require('pg')
 
-/*
-const pool = new Pool({
+const { Pool } = require('pg')
+const pool = new Pool ({
 	connectionString: process.env.DATABASE_URL
 });
-*/
 
-/* SQL Query 
-var sql_query = 'Select * FROM Verify WHERE Verify.uname = @user_id';
-*/
 
-/* TEMP FOR SEEING OUTPUT */
+pool.query('SELECT * FROM rides', (err, res) => {
+  if (err) {
+    throw err
+  }
+  var result = res;
+})
+
+// get testpage
 router.get('/', function(req, res, next) {
-  res.render('rides', { title: 'Find your ride ride now' });
+	pool.query(sql_query.query.all_rides, (err, data) => {
+		if (err) {
+    		throw err
+  		}
+		res.render('rides', { title: 'testing page', data: data.rows });
+	});
 });
+
 
 module.exports = router;
