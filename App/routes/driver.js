@@ -14,7 +14,9 @@ var sql_query = 'Select * FROM Verify WHERE Verify.uname = @user_id';
 
 /* TEMP FOR SEEING OUTPUT */
 router.get('/', function(req, res, next) {
-  res.render('driver', { title: 'So u think u can drive?' });
+	console.log("req.app.locals.user:", req.app.locals.user)
+	console.log("global.user:", global.user)
+	res.render('driver', { title: 'So u think u can drive?' });
 });
 
 

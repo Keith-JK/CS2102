@@ -99,10 +99,10 @@ app.get("/login", function(req, res) {
   const password = req.body.password */
   console.log(username)
   console.log(password)
-  /* if(!username || !password){
+  if(!username || !password){
     //res.send("Empty fields! Famine is coming!")
     res.send("The fields are empty, go grow some rice")
-  } */
+  }
 
   // usually this would be a database call: -------------------------------TODO database call {name:userid, password:password} ----------------------------------
   // find the user object using the req.body.name to do the SQL query
@@ -139,6 +139,16 @@ app.get("/login", function(req, res) {
           token:"Bearer " + token,
           decode:decode
         }); */
+
+        // SETTING GLOBAL VARIABLES -- Refer to it by using req.app.locals.____ 
+        app.locals.user = username
+        app.locals.token = token
+        console.log(app.locals.user)
+        
+        // Alternative method -- refer to it by the var name e.g. console.log(global.user)
+        global.user = username
+        global.token = token
+
         res.header('Authorization', "test").header('user', username).render('homepage', {title:username, token:token})
         // res.redirect("/secret")
       }
