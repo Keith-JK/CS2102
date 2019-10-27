@@ -26,7 +26,7 @@ router.post('/', function(req, res, next) {
 		if (err) {
     		throw err
   		}
-		res.render('rides', { title: 'testing page', data: data.rows });
+		res.render('rides', { title: 'rides page', data: data.rows });
 	});
 });
 

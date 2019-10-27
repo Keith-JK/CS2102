@@ -206,10 +206,37 @@ body {
 
 /* to make the ride diplay cards appear next to each other */
 .card {
-  display:inline-block;
+  display: inline-block;
+  vertical-align: middle;
+  word-spacing: -3px
+
 }
 
 /* for the searchbar to be fixed in postion */
 .searchbar {
   position: sticky;
 }
+
+/* container to display bids table */
+.bidcontainer {
+  border: 3px solid #FFFFFF;
+}
+
+/* container for info regarding the bid */
+.bidInfoBox {
+  width: 400px;
+  height: 180px;
+  border: 3px solid #FFFFFF;
+  display: inline-flex;
+  text-align: center;
+}
+
+/* border for the bidding box */
+.biddingbox {
+  width: 800px;
+  height: 180px;
+  border: 3px solid #FFFF00;
+  display: inline-flex;
+  justify-items: stretch;
+}
+

@@ -20,9 +20,10 @@ router.post('/', function(req, res, next) {
 	var capacity = req.body.capacity;
 	var dateOfRide = req.body.dateOfRide;
 	var timeOfRide = req.body.timeOfRide;
-
+	var username = global.user;
+	console.log(`${username} , ${dropoff} , ${pickup}`);
 	
-	pool.query(sql_query.query.add_ride, [pickup, dropoff, dateOfRide, timeOfRide, capacity], (err, data) => {
+	pool.query(sql_query.query.add_ride, [username, pickup, dropoff, dateOfRide, timeOfRide, capacity], (err, data) => {
 		if(err) {
 			console.error("Error in adding ride", err);
 			res.redirect('/');

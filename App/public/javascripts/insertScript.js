@@ -1,34 +1,40 @@
 function check(event) {
 	// Get Values
-	var matric  = document.getElementById('matric' ).value;
-	var name    = document.getElementById('name'   ).value;
-	var faculty = document.getElementById('faculty').value;
+	var pickup  = req.body.pickup.toUpperCase();
+	var dropoff = req.body.dropoff.toUpperCase();
+	var capacity = req.body.capacity;
+	var dateOfRide = req.body.dateOfRide;
+	var timeOfRide = req.body.timeOfRide;
 	
 	// Simple Check
-	if(matric.length != 9) {
-		alert("Invalid matric number");
+	if(pickup.length == 0) {
+		alert("please set pickup place!");
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
 	}
-	if(name.length == 0) {
-		alert("Invalid name");
+	if(dropoff.length == 0) {
+		alert("please set dropoff place!");
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
 	}
-	if(faculty.length != 3) {
-		alert("Invalid faculty code");
+	if(dateOfRide == "") {
+		alert("Invalid date");
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
+	}
+	if(timeOfRide == "") {
+		alert("Invalid time");
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}
+	if(capacity == 0 ) {
+		alert("Not enough capacity!!!!");
+		event.preventDefault();
+		event.stopPropagation();
 	}
 }
 
-function getdate(date) {
-        var month = date.getUTCMonth() + 1; //months from 1-12
-        var day = date.getUTCDate();
-        var year = date.getUTCFullYear();
-        newdate = year + "/" + month + "/" + day;
-        return newdate;
-      }

@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
+const sql_query = require(./sql);
 const pg = require('pg');
 // for hashing -- havent use
 var bcrypt = require('bcryptjs');
@@ -107,6 +108,8 @@ app.get("/login", function(req, res) {
   // usually this would be a database call: -------------------------------TODO database call {name:userid, password:password} ----------------------------------
   // find the user object using the req.body.name to do the SQL query
   // MOCK USER FOR TESTING PURPOSES
+
+
   const user = {
     id: 1,
     username: 'abc',

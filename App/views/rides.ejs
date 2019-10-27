@@ -20,7 +20,7 @@
     <div class="d-flex w-100 h-100 mx-auto flex-column">
     <header class="masthead">
     <div class="inner">
-      <h3 onclick="window.location.href='/homepage'" class="masthead-brand" data-desc="go homepage">Grab express</h3>
+      <h3 onclick="window.location.href='/homepage'" class="masthead-brand" data-desc="go homepage">Grab Express</h3>
       <nav class="nav nav-masthead justify-content-center">
       <a href="/bookmarks" class="nav-link active">Bookmarks</a>
       <a href="/favourite_drivers" class="nav-link active">Favourite drivers</a>
@@ -45,7 +45,7 @@
       <div class="container">
       <%
       //this is the function to get the date in a presentable form
-      function getdate(date) {
+      function displaydate(date) {
         var month = date.getUTCMonth() + 1; //months from 1-12
         var day = date.getUTCDate();
         var year = date.getUTCFullYear();
@@ -56,11 +56,15 @@
         <% for(var i=0; i<data.length; i++) { %>
             <div class="card" style="width: 15rem;">
                 <div class="card-body bg-dark">
-                  <form action="individualRide" method="post">
+                  <form action="individualRide" method="get">
                   <h5 class="card-title" name="location"><%= data[i].pickup%> TO <%= data[i].dropoff%></h5>
+                  <input type="hidden"  name="locationValue" value="<%= data[i].pickup%> TO <%= data[i].dropoff%>">
                   <p class="card-text" name="time">Start time: <%= data[i].start_time%></p>
-                  <p class="card-text" name="date">Date: <%= getdate(data[i].ride_date)%></p>
+                  <input type="hidden"  name="timeValue" value="<%= data[i].start_time%>">
+                  <p class="card-text" name="date">Date: <%= displaydate(data[i].ride_date)%></p>
+                  <input type="hidden"  name="dateValue" value="<%= data[i].ride_date%>">
                   <p class="card-text" name="driverusername">Driver: <%= data[i].username%></p>
+                  <input type="hidden"  name="driverValue" value="<%= data[i].username%>">
                   <p class="card-text" name ="capacity">Capacity: <%= data[i].capacity%></p>
                   <button class="btn btn-outline-success" type="submit">Bid for ride</button> 
                 </form>
