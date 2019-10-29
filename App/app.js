@@ -128,45 +128,45 @@ app.get("/login", function(req, res) {
     if(!user){
       res.status(401).json({message:"no such user found"});
     }
-    // bcrypt.compare(password, user.password, (err, success) =>{
-      // if(err) console.log(err)
-    if(password == user.password){
-      console.log("password verified with database")
-      var payload = {
-        id:user.id,
-        username: user.username,
-        email: user.email
-      };
-      
-      // create a token
-      jwt.sign(payload, jwtOptions.secretOrKey, (err, token) =>{
-        if(err) console.log(err)
-        else{
-          const decode = jwt.decode(token)
-          // pass on the token
-          console.log("token", token)
-          /* res.json({
-            success:true,
-            token:"Bearer " + token,
-            decode:decode
-          }); */
+    bcrypt.compare(password, user.password, (err, success) =>{
+      if(err) console.log(err)
+      if(success){
+        console.log("password verified with database")
+        var payload = {
+          id:user.id,
+          username: user.username,
+          email: user.email
+        };
+        
+        // create a token
+        jwt.sign(payload, jwtOptions.secretOrKey, (err, token) =>{
+          if(err) console.log(err)
+          else{
+            const decode = jwt.decode(token)
+            // pass on the token
+            console.log("token", token)
+            /* res.json({
+              success:true,
+              token:"Bearer " + token,
+              decode:decode
+            }); */
 
-          // SETTING GLOBAL VARIABLES -- Refer to it by using req.app.locals.____ 
-          app.locals.user = username
-          app.locals.token = token
-          
-          // Alternative method -- refer to it by the var name e.g. console.log(global.user)
-          global.user = username
-          global.token = token
+            // SETTING GLOBAL VARIABLES -- Refer to it by using req.app.locals.____ 
+            app.locals.user = username
+            app.locals.token = token
+            
+            // Alternative method -- refer to it by the var name e.g. console.log(global.user)
+            global.user = username
+            global.token = token
 
-          res.redirect('/homepage')
-        }
-      });
-    }else{
-      console.log("wrong password")
-      res.redirect("/")
-    }
-    // });
+            res.redirect('/homepage')
+          }
+        });
+      }else{
+        console.log("password doesn't match")
+        res.redirect("/")
+      }
+    });
   });
 });
 
