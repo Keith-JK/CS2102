@@ -169,9 +169,6 @@ app.get("/login", function(req, res) {
 });
 
 // test GET request to test jwt 
-/* app.get("/secret", passport.authenticate('jwt', {session:false}), function(req, res){
-  res.json({message: "Success! You can not see this without a token"});
-}); */
 app.get("/secret", auth, function(req, res){
   res.json({message: "Success! You can not see this without a token"});
 });
