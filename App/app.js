@@ -163,6 +163,9 @@ app.get("/login", function(req, res) {
           res.redirect('/homepage')
         }
       });
+    }else{
+      console.log("wrong password")
+      res.redirect("/")
     }
     // });
   });
