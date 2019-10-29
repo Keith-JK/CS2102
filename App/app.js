@@ -57,7 +57,6 @@ app.use('/driver', auth, driverRouter);
 app.use('/awaitingApproval', auth, awaitingApprovalRouter);
 app.use('/rides', auth, ridesRouter);
 app.use('/homepage', auth, homepageRouter);
-
 app.use('/registerUser', registerUserRouter);
 app.use('/addRide', auth, addRideRouter);
 app.use('/individualRide', auth, individualRideRouter);
@@ -170,41 +169,6 @@ app.get("/login", function(req, res) {
   }
   // });
 });
-/*
-app.post('/register', (req, res) =>{
-=======
-
-/* app.get('/register', (req, res) =>{
->>>>>>> 28269748958cdd56dbd2af956f1eea1aaf76ab11
-  User.findOne({email: req.body.email}, (err, user) =>{
-    if(user){
-      let error = "Email already in use"
-      return res.status(400).json(error)
-    }else{
-      const newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-      });
-
-      // Generate salt
-      bcrypt.genSalt(10, (err, salt) =>{
-        if(err) {
-          console.log(err);
-        }
-        // hash it with salt
-        bcrypt.hash(newUser.password, salt, (err,hash)=>{
-          if(err) console.log(err)
-          newUser.password = hash
-          // save to database -- IDK POSTGRES METHODS
-          pool.query(sql_query.query.add_user, [name, ])
-          newUser.save().then(user => res.json(user))
-            .catch(err => res.status(400).json(err))
-        });
-      });      
-    }
-  })
-}) */
 
 // test GET request to test jwt 
 /* app.get("/secret", passport.authenticate('jwt', {session:false}), function(req, res){
