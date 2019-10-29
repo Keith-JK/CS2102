@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 const sql_query = require('./sql/index');
 const pg = require('pg');
-// for hashing -- havent use
+// for hashing
 var bcrypt = require('bcryptjs');
 var auth = require('./verifyToken')
 // initialise the application 
@@ -79,26 +79,12 @@ var jwtOptions = {}
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 // this is secret key, choose a suitable secret key to encrypt
 //secretOrKey = process.env.SECRET_KEY; 
-jwtOptions.secretOrKey = "Hi,Im_a_secret_key";
-jwtOptions.audience = "http://localhost:3000/secret"
-
+jwtOptions.secretOrKey = "Hi,Im_a_secret_key"; // need to throw this to dotenv sometime
 
 passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, done) {
   console.log('payload received', jwt_payload);
   done(null,user)
-  /* // database call -- this is a mongooseDB method, idk whats the Postgres equivalent
-  User.findOne({id: jwt_payload.id}, function(err, user) {
-    if (err) {
-      return done(err, false);
-    }
 
-    if (user) {
-      return done(null, user);
-    } else {
-        return done(null, false);
-      // or you could create a new account
-      }
-    }); */
 }));
 
 // LOGIN 
@@ -111,13 +97,10 @@ app.get("/login", function(req, res) {
   console.log("username input:", username)
   console.log("password input:", password)
   if(!username || !password){
-    //res.send("Empty fields! Famine is coming!")
     res.send("The fields are empty, go grow some rice")
   }
-  
-  // usually this would be a database call: -------------------------------TODO database call {name:userid, password:password} ----------------------------------
-  // find the user object using the req.body.name to do the SQL query
-  // MOCK USER FOR TESTING PURPOSES
+
+  // find login information if exist
   pool.query(sql_query.query.check_username, [username], (err,data) => {
     if(err) throw err
     console.log(data.rows[0])
@@ -127,54 +110,45 @@ app.get("/login", function(req, res) {
     // if not found in database
     if(!user){
       res.status(401).json({message:"no such user found"});
-    }
-    bcrypt.compare(password, user.password, (err, success) =>{
-      if(err) console.log(err)
-      if(success){
-        console.log("password verified with database")
-        var payload = {
-          id:user.id,
-          username: user.username,
-          email: user.email
-        };
-        
-        // create a token
-        jwt.sign(payload, jwtOptions.secretOrKey, (err, token) =>{
-          if(err) console.log(err)
-          else{
-            const decode = jwt.decode(token)
-            // pass on the token
-            console.log("token", token)
-            /* res.json({
-              success:true,
-              token:"Bearer " + token,
-              decode:decode
-            }); */
+    }else{
+      bcrypt.compare(password, user.password, (err, success) =>{
+        if(err) console.log(err)
+        if(success){
+          console.log("password verified with database")
+          var payload = {
+            id:user.id,
+            username: user.username,
+            email: user.email
+          };
+          
+          // create a token
+          jwt.sign(payload, jwtOptions.secretOrKey, (err, token) =>{
+            if(err) console.log(err)
+            else{
+              const decode = jwt.decode(token)
+              // pass on the token
+              console.log("token", token)
 
-            // SETTING GLOBAL VARIABLES -- Refer to it by using req.app.locals.____ 
-            app.locals.user = username
-            app.locals.token = token
-            
-            // Alternative method -- refer to it by the var name e.g. console.log(global.user)
-            global.user = username
-            global.token = token
+              // SETTING GLOBAL VARIABLES -- Refer to it by using req.app.locals.____ 
+              app.locals.user = username
+              app.locals.token = token
+              
+              // Alternative method -- refer to it by the var name e.g. console.log(global.user)
+              global.user = username
+              global.token = token
 
-            res.redirect('/homepage')
-          }
-        });
-      }else{
-        console.log("password doesn't match")
-        res.redirect("/")
-      }
+              res.redirect('/homepage')
+            }
+          });
+        }else{
+          // comparing hash -- not equal
+          console.log("password doesn't match")
+          res.redirect("/")
+        }
     });
+  }
   });
 });
-
-// test GET request to test jwt 
-app.get("/secret", auth, function(req, res){
-  res.json({message: "Success! You can not see this without a token"});
-});
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
