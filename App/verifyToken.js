@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken")
 
 secretOrKey = "Hi,Im_a_secret_key"
 module.exports = function(req,res,next){
-    const token = req.header('Authorization');
+    //const token = req.header('Authorization');
+    const token = global.token;
     console.log("My Auth token:", token)
     if(!token) return res.status(401).send("Access Denied");
 
