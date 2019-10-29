@@ -21,7 +21,12 @@ router.get('/', function(req, res, next) {
 		if (err) {
     		throw err
   		}
-  		res.render('individualRide', {data: data.rows});
+  		if (data.rows[0] != undefined){
+  			res.render('individualRide', {data: data.rows});	
+  		} else {
+  			res.render('individualRideNoBids', {pickup, dropoff, driver, date, time});
+  		}
+  		
 	}); 
 });
 

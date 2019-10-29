@@ -5,18 +5,18 @@ sql.query = {
 
 
 	all_rides: 'SELECT * FROM RIDES WHERE is_complete = FALSE',
-	add_user: 'INSERT INTO Users VALUES (username, name, password) VALUES ($1, $2, $3)',
-	add_driver: '',
 	check_username: 'SELECT * FROM Users where username = $1',
+	add_user: 'INSERT INTO users VALUES (username, name, password) VALUES ($1, $2, $3)',
+	add_driver: 'INSERT INTO driver VALUES (username, name) VALUES ($1, $2)',
 	add_bid: 'INSERT INTO bids (puname, duname, pickup, dropoff, ride_date, start_time, amount) VALUES ($1,$2,$3,$4,$5,$6,$7)',
 	add_ride: 'INSERT INTO rides (username, pickup, dropoff, ride_date, start_time, capacity) VALUES ($1,$2,$3,$4,$5,$6)',
 	userpass: 'SELECT username,password FROM users WHERE EXISTS (SELECT 1 FROM users WHERE username = $1 AND password = $2) WHERE username = $1 AND password = $2',
 	add_car: 'INSERT INTO car (platenumber, model, capacity) VALUES($1,$2,$3)',
 	all_car: 'SELECT * FROM car',
-	check_driver_verified: '', //return one row which is the driver if verified, 0 rows if dont have
+	add_verify: 'INSERT INTO verify VALUES (auname, duname, since) VALUES (\'A\',$1, $2, 'F')',
+	check_driver_verified: 'SELECT * from verify v WHERE v.duname = $1', //return one row which is the driver if verified, 0 rows if dont have
 	check_driver_car: '', //check if driver has car
 	check_user_registered: '', //return one row which is the user is registered, 0 rows if dont have
-	add_user: 'INSERT INTO username_password (username, password, status, first_name, last_name) VALUES ($1,$2,\'Bronze\',$3,$4)',
 	driver_rating: '',
 	rides_search: 'SELECT * FROM rides r WHERE r.pickup = $1 AND r.dropoff = $2',
 	individualRide: 'SELECT * FROM rides r,bids b WHERE r.pickup = $1 AND r.dropoff = $2 AND r.ride_date = $3  AND r.start_time = $4 AND r.username = $5 AND b.pickup = $1 AND b.dropoff = $2 AND b.ride_date = $3  AND b.start_time = $4 AND b.duname = $5 ORDER BY b.amount DESC LIMIT 3'

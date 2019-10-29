@@ -18,9 +18,12 @@ router.post('/', function(req, res, next) {
 	var password = req.body.password;
 
 	pool.query(sql_query.query.check_username, [username], (err, data) =>{
+
     console.log("data:", data)
 		if(data.rows[0] != undefined) {
       console.log("username in use")
+
+
 			res.redirect('/registerUser');
 		} else {
       console.log("adding to database")
@@ -32,9 +35,10 @@ router.post('/', function(req, res, next) {
         // hash it with salt
         bcrypt.hash(password, salt, (err,hash)=>{
           if(err) console.log(err)
-          passwrod = hash
-          // save to database -- IDK POSTGRES METHODS
-          pool.query(sql_query.query.add_user, [name, username, password], function(err, data){
+          //password = hash
+          console.log(`${username} + ${password}`);
+          // save to database 
+          pool.query(sql_query.query.add_user, [name, username, password], (err, data) => {
             console.log("pass")
             res.redirect("/")
           });

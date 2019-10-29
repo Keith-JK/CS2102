@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<!-- Page Title -->
+    <title>CS2102 Starter Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- CSS for Styling -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+			<!-- JavaScript for Interactivity -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  </head>
+
+  <body >
+   
+    <div class="d-flex w-100 h-100 mx-auto flex-column">
+    <header class="masthead">
+    <div class="inner">
+      <h3 onclick="window.location.href='/homepage'" class="masthead-brand" data-desc="go homepage">Grab Express</h3>
+      <nav class="nav nav-masthead justify-content-center">
+      <a href="/bookmarks" class="nav-link active">Bookmarks</a>
+      <a href="/favourite_drivers" class="nav-link active">Favourite drivers</a>
+      <a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My profile</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <a class="dropdown-item" href="/insert">My details</a>
+            <a class="dropdown-item" href="">History</a>
+          </div>
+    </header>
+    <br/>
+    <main role="main">
+      <div class="bidInfoBox">
+        <div class="p-2">
+          <h3>Ride Info:</h3>
+          <h4><%= pickup%> TO <%= dropoff%></h4>
+          <h5> Date: <%= displaydate(date)%></h5>
+          <h5> Time: <%= time%></h5>
+        </div>
+      </div>
+      <div class="biddingbox">
+       <div class="p-4">
+         <form action="individualRide" method="post">
+            <h3>Bid amount</h3>
+            <input type="text" class="form-control col-sm-13" id="bidamount" name="bidamount" placeholder="Enter your bid here">
+            <input type="hidden"  name="timeValue" value="<%= time%>">
+            <input type="hidden"  name="dateValue" value="<%= date%>">
+            <input type="hidden"  name="pickup" value="<%= pickup%>">
+            <input type="hidden"  name="dropoff" value="<%= dropoff%>">
+            <input type="hidden"  name="duname" value="<%= driver%>">
+            <button class="btn btn-secondary" onclick="Submit">Submit bid</button>
+         </form>
+       </div>
+     </div>
+      <div class="bidcontainer">
+        <div class="p-4">
+        <h3>Bids</h3>
+        <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Bid amount</th>
+            <th scope="col">status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (var i = 0; i < 1; i++ ) { %>
+            <tr>
+              <td>no bids</td>
+              <td>no bids</td>
+              <td>no bids</td>
+            </tr>
+          <% } %>
+        </tbody>
+        </table>
+        </div>
+      </div>
+      <br>
+    </main>
+
+  <%
+      //this is the function to get the date in a presentable form
+      function displaydate(date) {
+        var month = date.getUTCMonth() + 1; //months from 1-12
+        var day = date.getUTCDate();
+        var year = date.getUTCFullYear();
+        newdate = year + "/" + month + "/" + day;
+        return newdate;
+      }
+    %>
+  </body>
+</html>
