@@ -7,7 +7,7 @@ sql.query = {
 	all_rides: 'SELECT * FROM RIDES WHERE is_complete = FALSE',
 	add_user: 'INSERT INTO Users VALUES (username, name, password) VALUES ($1, $2, $3)',
 	add_driver: '',
-	check_username: 'SELECT 1 FROM Users where username = $1',
+	check_username: 'SELECT * FROM Users where username = $1',
 	add_bid: 'INSERT INTO bids (puname, duname, pickup, dropoff, ride_date, start_time, amount) VALUES ($1,$2,$3,$4,$5,$6,$7)',
 	add_ride: 'INSERT INTO rides (username, pickup, dropoff, ride_date, start_time, capacity) VALUES ($1,$2,$3,$4,$5,$6)',
 	userpass: 'SELECT username,password FROM users WHERE EXISTS (SELECT 1 FROM users WHERE username = $1 AND password = $2) WHERE username = $1 AND password = $2',

@@ -18,7 +18,8 @@ router.post('/', function(req, res, next) {
 	var password = req.body.password;
 
 	pool.query(sql_query.query.check_username, [username], (err, data) =>{
-		if(data != undefined) {
+    console.log("data:", data)
+		if(data.rows[0] != undefined) {
       console.log("username in use")
 			res.redirect('/registerUser');
 		} else {
