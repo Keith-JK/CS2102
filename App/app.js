@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
-const sql_query = require(./sql);
+const sql_query = require('./sql');
 const pg = require('pg');
 // for hashing -- havent use
 var bcrypt = require('bcryptjs');
@@ -43,15 +43,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 /* FOR PROJECT */
-// passport middleware to authenticate user when proceeding to protected routes
+// not token protected
 app.use('/', indexRouter);
 app.use('/registerDriver', registerDriverRouter);
-app.use('/driver', driverRouter);
-app.use('/awaitingApproval', awaitingApprovalRouter);
-app.use('/rides', ridesRouter);
+
+// verifyToken middleware to authenticate user when proceeding to protected routes
+app.use('/driver', auth, driverRouter);
+app.use('/awaitingApproval', auth, awaitingApprovalRouter);
+app.use('/rides', auth, ridesRouter);
 app.use('/homepage', auth, homepageRouter);
-app.use('/addRide', addRideRouter);
-app.use('/individualRide', individualRideRouter);
+app.use('/addRide', auth, addRideRouter);
+app.use('/individualRide', auth, individualRideRouter);
 
 // app.use('/testpage', testPageRouter);
 
@@ -94,12 +96,12 @@ passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, done) {
 
 // LOGIN 
 app.get("/login", function(req, res) {
-  const username = req.query.username
-  const password = req.query.password
-  /* const username = req.body.username
-  const password = req.body.password */
-  console.log(username)
-  console.log(password)
+  // GET request / POST request
+  const username = req.query.username || req.body.username
+  const password = req.query.password || req.body.password
+
+  console.log("username input:", username)
+  console.log("password input:", password)
   if(!username || !password){
     //res.send("Empty fields! Famine is coming!")
     res.send("The fields are empty, go grow some rice")
@@ -123,7 +125,7 @@ app.get("/login", function(req, res) {
   // bcrypt.compare(password, user.password, (err, success) =>{
     // if(err) console.log(err)
   if(password == user.password){
-    console.log("password same")
+    console.log("password verified with database")
     var payload = {
       id:user.id,
       username: user.username,
@@ -152,15 +154,16 @@ app.get("/login", function(req, res) {
         global.user = username
         global.token = token
 
-        res.header('Authorization', "test").header('user', username).render('homepage', {title:username, token:token})
-        // res.redirect("/secret")
+        //res.header('Authorization', "test").header('user', username).render('homepage', {title:username, token:token})
+        res.redirect('/homepage')
+        // res.redirect('/secret')
       }
     });
   }
   // });
 });
 
-app.post('/register', (req, res) =>{
+/* app.get('/register', (req, res) =>{
   User.findOne({email: req.body.email}, (err, user) =>{
     if(user){
       let error = "Email already in use"
@@ -188,7 +191,7 @@ app.post('/register', (req, res) =>{
       });      
     }
   })
-})
+}) */
 
 // test GET request to test jwt 
 /* app.get("/secret", passport.authenticate('jwt', {session:false}), function(req, res){
@@ -197,7 +200,6 @@ app.post('/register', (req, res) =>{
 app.get("/secret", auth, function(req, res){
   res.json({message: "Success! You can not see this without a token"});
 });
-
 
 
 // catch 404 and forward to error handler
