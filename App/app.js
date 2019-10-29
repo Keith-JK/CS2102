@@ -4,13 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
-const sql_query = require(./sql);
+const sql_query = require('./sql');
 const pg = require('pg');
 // for hashing -- havent use
 var bcrypt = require('bcryptjs');
 var auth = require('./verifyToken')
 // initialise the application 
 var app = express();
+const { Pool } = require('pg')
+const pool = new Pool ({
+  connectionString: process.env.DATABASE_URL
+});
 
 require('dotenv').config();
 
@@ -24,6 +28,7 @@ var ridesRouter = require('./routes/rides');
 var homepageRouter = require('./routes/homepage');
 var addRideRouter = require('./routes/addRide'); 
 var individualRideRouter = require('./routes/individualRide');
+var registerUserRouter = require('./routes/registerUser');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,8 +57,7 @@ app.use('/rides', ridesRouter);
 app.use('/homepage', auth, homepageRouter);
 app.use('/addRide', addRideRouter);
 app.use('/individualRide', individualRideRouter);
-
-// app.use('/testpage', testPageRouter);
+app.use('/registerUser', registerUserRouter);
 
 // JWT passport authentication 
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
@@ -159,7 +163,7 @@ app.get("/login", function(req, res) {
   }
   // });
 });
-
+/*
 app.post('/register', (req, res) =>{
   User.findOne({email: req.body.email}, (err, user) =>{
     if(user){
@@ -182,13 +186,14 @@ app.post('/register', (req, res) =>{
           if(err) console.log(err)
           newUser.password = hash
           // save to database -- IDK POSTGRES METHODS
+          pool.query(sql_query.query.add_user, [name, ])
           newUser.save().then(user => res.json(user))
             .catch(err => res.status(400).json(err))
         });
       });      
     }
   })
-})
+}) */
 
 // test GET request to test jwt 
 /* app.get("/secret", passport.authenticate('jwt', {session:false}), function(req, res){
