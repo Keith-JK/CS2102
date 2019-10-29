@@ -121,7 +121,6 @@ app.get("/login", function(req, res) {
   pool.query(sql_query.query.check_username, [username], (err,data) => {
     if(err) throw err
     console.log(data.rows[0])
-    pool.end()
     
     const user = data.rows[0]
   

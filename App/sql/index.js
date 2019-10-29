@@ -6,14 +6,14 @@ sql.query = {
 
 	all_rides: 'SELECT * FROM RIDES WHERE is_complete = FALSE',
 	check_username: 'SELECT * FROM Users where username = $1',
-	add_user: 'INSERT INTO users VALUES (username, name, password) VALUES ($1, $2, $3)',
-	add_driver: 'INSERT INTO driver VALUES (username, name) VALUES ($1, $2)',
+	add_user: 'INSERT INTO users (username, name, password) VALUES($1, $2, $3)',
+	add_driver: 'INSERT INTO driver (username, name) VALUES ($1, $2)',
 	add_bid: 'INSERT INTO bids (puname, duname, pickup, dropoff, ride_date, start_time, amount) VALUES ($1,$2,$3,$4,$5,$6,$7)',
 	add_ride: 'INSERT INTO rides (username, pickup, dropoff, ride_date, start_time, capacity) VALUES ($1,$2,$3,$4,$5,$6)',
 	userpass: 'SELECT username,password FROM users WHERE EXISTS (SELECT 1 FROM users WHERE username = $1 AND password = $2) WHERE username = $1 AND password = $2',
 	add_car: 'INSERT INTO car (platenumber, model, capacity) VALUES($1,$2,$3)',
 	all_car: 'SELECT * FROM car',
-	add_verify: 'INSERT INTO verify VALUES (auname, duname, since) VALUES (\'A\',$1, $2, 'F')',
+	add_verify: 'INSERT INTO verify (auname, duname, since, is_verified) VALUES(\'Z\',$1, $2, \'f\')',
 	check_driver_verified: 'SELECT * from verify v WHERE v.duname = $1', //return one row which is the driver if verified, 0 rows if dont have
 	check_driver_car: '', //check if driver has car
 	check_user_registered: '', //return one row which is the user is registered, 0 rows if dont have

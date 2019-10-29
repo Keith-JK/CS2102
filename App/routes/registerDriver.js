@@ -28,16 +28,24 @@ router.get('/', function(req, res, next) {
 
 		pool.query(sql_query.query.check_username,[username], (err, data) => {
 			name = data.rows[0].name;
+
+			pool.query(sql_query.query.add_driver, [username, name], (err, data) => {
+				if(err) {
+					console.log(err);
+				} else {
+					console.log(`added driver!`);
+					pool.query(sql_query.query.add_verify, [username, today], (err, data) => {
+						if(err) {
+							console.log(err);
+						} else {
+							console.log(`added verify driver record!`);
+						}
+					});
+				}
+			});
 		});
+
 		
-		pool.query(sql_query.query.add_driver, [username, name], (err, data) => {
-			console.log(`added driver!`);
-		});
-
-		pool.query(sql_query.query.add_verify, [username, today], (err, data) => {
-			console.log(`added verify driver record!`);
-		});
-
 		pool.query(sql_query.query.add_car, [platenumber, model, capacity], (err, data) => {
 		if(err) {
 			console.error("Error in adding car", err);
