@@ -1,9 +1,10 @@
-const sql_query = require('../sql');
+const sql_query = require('../sql/index');
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcryptjs');
 
 const { Pool } = require('pg')
+require('dotenv').config();
 const pool = new Pool ({
 	connectionString: process.env.DATABASE_URL
 });
@@ -18,11 +19,9 @@ router.post('/', function(req, res, next) {
 	var password = req.body.password;
 
 	pool.query(sql_query.query.check_username, [username], (err, data) =>{
-
-    console.log("data:", data)
+    console.log("data:", data.rows[0])
 		if(data.rows[0] != undefined) {
       console.log("username in use")
-
 
 			res.redirect('/registerUser');
 		} else {
@@ -35,10 +34,11 @@ router.post('/', function(req, res, next) {
         // hash it with salt
         bcrypt.hash(password, salt, (err,hash)=>{
           if(err) console.log(err)
-          //password = hash
-          console.log(`${username} + ${password}`);
+          password = hash
+          console.log(`${username} + ${password} + ${name}`);
           // save to database 
-          pool.query(sql_query.query.add_user, [name, username, password], (err, data) => {
+          pool.query(sql_query.query.add_user, [username, name, password], (err, data) => {
+            if(err) console.log(err)
             console.log("pass")
             res.redirect("/")
           });
