@@ -112,9 +112,9 @@ CREATE TABLE Bookmarks (
 	PRIMARY KEY (puname, pickup, dropoff)
 );
 
-CREATED TABLE Messages (
-	sender varchar(100) REFERENCES User,
-	receiver varchar(100) REFERENCES User,
+CREATE TABLE Messages (
+	sender varchar(100) REFERENCES Users,
+	receiver varchar(100) REFERENCES Users,
 	message varchar (500) NOT NULL,
 	sent_time time NOT NULL,
 	PRIMARY KEY (sender, receiver, time)
