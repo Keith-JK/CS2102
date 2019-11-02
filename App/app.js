@@ -47,17 +47,16 @@ app.use(cookieParser());
 //set folder for css and javascript
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* FOR PROJECT */
-// not token protected
+// not token protected routes
 app.use('/', indexRouter);
-app.use('/registerDriver', registerDriverRouter);
+app.use('/registerUser', registerUserRouter);
 
 // verifyToken middleware to authenticate user when proceeding to protected routes
 app.use('/driver', auth, driverRouter);
 app.use('/awaitingApproval', auth, awaitingApprovalRouter);
+app.use('/registerDriver', auth, registerDriverRouter);
 app.use('/rides', auth, ridesRouter);
 app.use('/homepage', auth, homepageRouter);
-app.use('/registerUser', registerUserRouter);
 app.use('/addRide', auth, addRideRouter);
 app.use('/individualRide', auth, individualRideRouter);
 
@@ -87,7 +86,7 @@ passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, done) {
 
 }));
 
-// LOGIN 
+// LOGIN ROUTE 
 app.get("/login", function(req, res) {
   
   // GET request / POST request
