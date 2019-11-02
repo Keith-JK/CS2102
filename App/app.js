@@ -108,7 +108,9 @@ app.get("/login", function(req, res) {
   
     // if not found in database
     if(!user){
-      res.status(401).json({message:"no such user found"});
+      console.log("ERROR: no such user found, redirecting to registerUser")
+      // res.status(401).json({message:"no such user found"});
+      res.redirect("/registerUser")
     }else{
       bcrypt.compare(password, user.password, (err, success) =>{
         if(err) console.log(err)

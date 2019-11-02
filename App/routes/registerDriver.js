@@ -25,7 +25,7 @@ router.get('/', function(req, res, next) {
 			if(err) console.log(err)
 
 			if(data.rows[0] == undefined){
-				// driver not verified
+				// driver not registered 
 				console.log("Driver not registered, proceed to register")
 				res.render('registerDriver', { title: 'Register driver' });
 			}else{
