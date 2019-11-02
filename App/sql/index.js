@@ -13,8 +13,10 @@ sql.query = {
 	userpass: 'SELECT username,password FROM users WHERE EXISTS (SELECT 1 FROM users WHERE username = $1 AND password = $2) WHERE username = $1 AND password = $2',
 	add_car: 'INSERT INTO car (platenumber, model, capacity) VALUES($1,$2,$3)',
 	all_car: 'SELECT * FROM car',
-	add_verify: 'INSERT INTO verify (auname, duname, since, is_verified) VALUES(\'Z\',$1, $2, \'f\')',
+	add_verify: 'INSERT INTO verify (auname, duname, since, is_verified) VALUES(NULL, $1, $2, FALSE)',// insert into verify with admin name = NULL and is_verified = FALSE, admin will manually verify the driver
 	check_driver_verified: 'SELECT * from verify v WHERE v.duname = $1', //return one row which is the driver if verified, 0 rows if dont have
+	check_driver_able_to_add_rides: 'SELECT * from verify v WHERE v.duname = $1 AND is_verified = TRUE', // check is driver registered and verified by admin
+	approve_verified_driver: 'UPDATE verify SET auname = $1, is_verified = TRUE WHERE duname = $2', // approves driver, check data.rowCount == 1 for successful verification
 	check_driver_car: '', //check if driver has car
 	check_user_registered: '', //return one row which is the user is registered, 0 rows if dont have
 	driver_rating: '',

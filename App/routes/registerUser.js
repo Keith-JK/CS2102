@@ -25,6 +25,7 @@ router.post('/', function(req, res, next) {
 
 			res.redirect('/registerUser');
 		} else {
+      // new username
       console.log("adding to database")
 	    // Generate salt
       bcrypt.genSalt(10, (err, salt) =>{
