@@ -8,7 +8,8 @@ module.exports = function(req,res,next){
     // console.log("My Auth token:", token)
     if(!token) {
         console.log("ERROR: Accessing protected route without token!")
-        return res.status(401).send("Access Denied");
+        // return res.status(401).send("Access Denied");
+        return res.redirect("/")
     }
 
     try{
@@ -17,6 +18,7 @@ module.exports = function(req,res,next){
         next();
     }catch(err){
         console.log("ERROR: Invalid token, unable to access protected routes!")
-        return res.status(400).send("Invalid token")
+        // return res.status(400).send("Invalid token")
+        return res.redirect("/")
     }
 }
