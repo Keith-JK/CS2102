@@ -31,13 +31,37 @@
           </div>
     </header>
 
-    <main role="main" class="inner cover">
-      <p id="quest-denied" class="lead">So what kind of driver are u?</p>
-        <div class="btn-group masthead" role="group" aria-label="buttons">
-          <button type="button" onclick="window.location.href='/registerDriver'" class="btn btn-light btn-lg mr-3 homepagebutton">First time?</button>
-          <button type="button" onclick="window.location.href='/awaitingApproval'" class="btn btn-dark btn-lg mr-3 homepagebutton">Awaiting verification</button>
-          <button type="button" onclick="window.location.href='/addRide'" class="btn btn-dark btn-lg homepagebutton">I'm ready to drive baby</button>
-        </div>
+    <main role="main">
+      <h2 class="mt-2">Driver dashboard</h2>
+      <h3 class="pt-5">Your rides</h3>
+      <div class="ridescontainer">
+      <%
+      //this is the function to get the date in a presentable form
+      function displaydate(date) {
+        var month = date.getUTCMonth() + 1; //months from 1-12
+        var day = date.getUTCDate();
+        var year = date.getUTCFullYear();
+        newdate = year + "/" + month + "/" + day;
+        return newdate;
+      }
+      %>
+        <% for(var i=0; i<data.length; i++) { %>
+            <div class="card" style="width: 15rem;">
+                <div class="card-body bg-dark">
+                  <form action="individualRideDriver" method="get">
+                  <h5 class="card-title" name="location"><%= data[i].pickup%> TO <%= data[i].dropoff%></h5>
+                  <input type="hidden"  name="locationValue" value="<%= data[i].pickup%> TO <%= data[i].dropoff%>">
+                  <p class="card-text" name="time">Start time: <%= data[i].start_time%></p>
+                  <input type="hidden"  name="timeValue" value="<%= data[i].start_time%>">
+                  <p class="card-text" name="date">Date: <%= displaydate(data[i].ride_date)%></p>
+                  <input type="hidden"  name="dateValue" value="<%= data[i].ride_date%>">
+                  <p class="card-text" name ="capacity">Capacity: <%= data[i].capacity%></p>
+                  <button class="btn btn-outline-success" type="submit">check ride</button> 
+                </form>
+                </div>
+            </div>   
+        <% } %>
+    </div>
     </main>
 
     </div>

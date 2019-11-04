@@ -41,7 +41,10 @@ router.post('/', function(req, res, next) {
           pool.query(sql_query.query.add_user, [username, name, password], (err, data) => {
             if(err) console.log(err)
             console.log("pass")
-            res.redirect("/")
+            pool.query(sql_query.query.add_passenger, [username, name], (err, data) => {
+              console.log("add passenger")
+              res.redirect('/');
+            });
           });
         });
       });

@@ -6,15 +6,34 @@ const pool = new Pool ({
   connectionString: process.env.DATABASE_URL
 })
 
-/* SQL Query 
-var sql_query = 'Select * FROM Verify WHERE Verify.uname = @user_id';
-*/
 
 /* TEMP FOR SEEING OUTPUT */
 router.get('/', function(req, res, next) {
   var user = global.user
-	res.render('driver', { title: 'Grab Express' });
+
+  pool.query(sql_query.query.check_driver_exists_and_verified, [user], (err, data) => {
+      if(err){
+          throw err
+      } 
+      else if (data.rows[0] != undefined) {
+         if(data.rows[0].is_verified) {
+            pool.query(sql_query.query.get_driver_rides, [user], (err, data) => {
+                if(err){
+                    throw err
+                } else {
+                    res.render('driverVerified', {title: 'Grab Express', data: data.rows});
+                }
+            });   
+          } else {
+            res.redirect('awaitingApproval');
+          }
+      } else {
+          res.redirect('registerDriver');
+      }  
+  });
 });
+
+
 
 
 

@@ -28,7 +28,9 @@ var ridesRouter = require('./routes/rides');
 var homepageRouter = require('./routes/homepage');
 var addRideRouter = require('./routes/addRide'); 
 var individualRideRouter = require('./routes/individualRide');
+var individualRideNoBidsRouter = require('./routes/individualRideNoBids');
 var registerUserRouter = require('./routes/registerUser');
+var individualRideDriverRouter = require('./routes/individualRideDriver');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -59,7 +61,8 @@ app.use('/rides', auth, ridesRouter);
 app.use('/homepage', auth, homepageRouter);
 app.use('/addRide', auth, addRideRouter);
 app.use('/individualRide', auth, individualRideRouter);
-
+app.use('/individualRideNoBids', auth, individualRideNoBidsRouter);
+app.use('/individualRideDriver', auth, individualRideDriverRouter);
 // app.use('/testpage', testPageRouter);
 
 

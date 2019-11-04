@@ -240,3 +240,7 @@ body {
   justify-items: stretch;
 }
 
+/* container for driverdashboard page rides */
+.ridescontainer {
+  padding-top: 50px;
+}
