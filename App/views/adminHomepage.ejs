@@ -35,7 +35,9 @@
     <main role="main" class="inner cover">
       <div class="tabletitle">
         <p id="quest-denied" class="lead">Hi there admin <%= user%>, What are you doing today?</p>
-        <p class="lead" id="alert"></p>
+        <% if(gotVerify){ %>
+          <p class="lead" id="alert">Verified Successfully</p>
+        <% } %>
       </div>
         <h3>New driver request</h3>
         <table class="table">
@@ -57,7 +59,7 @@
               <input type="hidden"  name="name" value="<%= data[i].name%>">
               <td><%= displaydate(data[i].since)%></td>
               <input type="hidden"  name="since" value="<%= data[i].since%>">
-              <input type="hidden"  name="gotVerify" value="<%= TRUE%>">
+              <input type="hidden"  name="gotVerify" value="True">
               <td><button type="submit" id="verifydriver" class="btn btn-light btn-sm">Verified!</button></td>
               </form>
             </tr>
