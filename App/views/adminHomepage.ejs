@@ -33,26 +33,37 @@
     </header>
 
     <main role="main" class="inner cover">
-      <p id="quest-denied" class="lead">Hi there admin <%= user%>, What are you doing today?</p>
-      <h3>New driver request</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Driver Username</th>
-          <th scope="col">Driver Name</th>
-          <th scope="col">Request Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for(var i=0; i<data.length; i++) { %>
-        <tr>
-          <td><%= data[i].duname%></td>
-          <td><%= data[i].name%></td>
-          <td><%= displaydate(data[i].since)%></td>
-        </tr>
-        <% } %>
-      </tbody>
-    </table>
+      <div class="tabletitle">
+        <p id="quest-denied" class="lead">Hi there admin <%= user%>, What are you doing today?</p>
+        <p class="lead" id="alert"></p>
+      </div>
+        <h3>New driver request</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Driver Username</th>
+              <th scope="col">Driver Name</th>
+              <th scope="col">Request Date</th>
+              <th scope="col">Verify Driver</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i=0; i<data.length; i++) { %>
+            <tr>
+              <form action="homepage" method="post">
+              <td><%= data[i].duname%></td>
+              <input type="hidden"  name="duname" value="<%= data[i].duname%>">
+              <td><%= data[i].name%></td>
+              <input type="hidden"  name="name" value="<%= data[i].name%>">
+              <td><%= displaydate(data[i].since)%></td>
+              <input type="hidden"  name="since" value="<%= data[i].since%>">
+              <input type="hidden"  name="gotVerify" value="<%= TRUE%>">
+              <td><button type="submit" id="verifydriver" class="btn btn-light btn-sm">Verified!</button></td>
+              </form>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
     </main>
 
     <%
@@ -65,7 +76,11 @@
         return newdate;
       }
       %>
-
+    <script>
+      document.getElementById('verifydriver').addEventListener("click", ()=> {
+        document.getElementById('alert').innerHTML = "Driver Verified!"
+      });
+    </script>
     </div>
   </body>
 </html>

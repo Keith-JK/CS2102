@@ -244,3 +244,8 @@ body {
 .ridescontainer {
   padding-top: 50px;
 }
+
+/* admin dashboard title*/
+.tabletitle {
+  position: sticky;
+}
