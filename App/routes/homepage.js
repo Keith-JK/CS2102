@@ -41,24 +41,16 @@ router.get('/', function(req, res, next) {
 router.post('/', (req, res, next) => {
   var duname = req.body.duname
   var gotVerify = req.body.gotVerify
-<<<<<<< HEAD
-  console.log(`gotVerify: ${gotVerify}`)
-=======
   console.log("gotVerify ==", gotVerify, typeof(gotVerify))
   if(gotVerify == "True"){
     console.log("ok")
   }
->>>>>>> 8d36fd30eeaf8ca9d029dc9e264d06b50274521e
   pool.query(sql_query.query.add_verify, [duname], (err, data) => {
       if(err){
         throw err
       }
-<<<<<<< HEAD
-      res.redirect('homepage');    
-=======
       res.redirect(url.format({pathname: 'homepage', query: {"gotClick" : gotVerify}})
           );   
->>>>>>> 8d36fd30eeaf8ca9d029dc9e264d06b50274521e
   });
 })
 
