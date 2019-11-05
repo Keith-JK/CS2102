@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var user = global.user;
-  res.render('homepage', { title: 'Express', user: user});
+  res.render('favouriteDriver');
 });
 
 module.exports = router;
