@@ -14,8 +14,9 @@ sql.query = {
 	userpass: 'SELECT username,password FROM users WHERE EXISTS (SELECT 1 FROM users WHERE username = $1 AND password = $2) WHERE username = $1 AND password = $2',
 	add_car: 'INSERT INTO car (platenumber, model, capacity) VALUES($1,$2,$3)',
 	all_car: 'SELECT * FROM car',
-	add_verify: 'INSERT INTO verify (auname, duname, since, is_verified) VALUES(NULL, $1, $2, FALSE)',// insert into verify with admin name = NULL and is_verified = FALSE, admin will manually verify the driver
-	check_driver_verified: 'SELECT * from verify v WHERE v.duname = $1', //return one row which is the driver if verified, 0 rows if dont have
+	get_verify: 'SELECT * FROM verify v, users u WHERE v.is_verified = \'FALSE\' AND u.username = v.duname',
+	add_verify: 'UPDATE verify SET is_verified = \'TRUE\' WHERE duname = $1',  // insert into verify with admin name = NULL and is_verified = FALSE, admin will manually verify the driver
+	check_user_is_admin: 'SELECT * FROM admin a WHERE a.username = $1', 
 	check_driver_able_to_add_rides: 'SELECT * from verify v WHERE v.duname = $1 AND is_verified = TRUE', // check is driver registered and verified by admin
 	approve_verified_driver: 'UPDATE verify SET auname = $1, is_verified = TRUE WHERE duname = $2', // approves driver, check data.rowCount == 1 for successful verification
 	get_driver_rides: 'SELECT * FROM RIDES WHERE username = $1', 
@@ -24,35 +25,6 @@ sql.query = {
 	rides_search: 'SELECT * FROM rides r WHERE r.pickup = $1 AND r.dropoff = $2',
 	individualRide: 'SELECT * FROM rides r,bids b WHERE r.pickup = $1 AND r.dropoff = $2 AND r.ride_date = $3  AND r.start_time = $4 AND r.username = $5 AND b.pickup = $1 AND b.dropoff = $2 AND b.ride_date = $3  AND b.start_time = $4 AND b.duname = $5 ORDER BY b.amount DESC LIMIT 3'
 
-
-	/*
-	// Counting & Average
-	count_play: 'SELECT COUNT(winner) FROM game_plays WHERE user1=$1 OR user2=$1',
-	count_wins: 'SELECT COUNT(winner) FROM game_plays WHERE winner=$1',
-	avg_rating: 'SELECT AVG(rating) FROM user_games INNER JOIN game_list ON user_games.gamename=game_list.gamename WHERE username=$1',
-	
-	// Information
-	page_game: 'SELECT * FROM game_list WHERE ranking >= $1 AND ranking <= $2 ORDER BY ranking ASC',
-	page_lims: 'SELECT * FROM game_list ORDER BY ranking ASC LIMIT 10 OFFSET $1',
-	ctx_games: 'SELECT COUNT(*) FROM game_list',
-	all_games: 'SELECT ranking,game_list.gamename AS game,rating FROM user_games INNER JOIN game_list ON user_games.gamename=game_list.gamename WHERE username=$1 ORDER BY ranking ASC',
-	all_plays: 'SELECT gamename AS game, user1, user2, winner FROM game_plays WHERE user1=$1 OR user2=$1',
-	
-	// Insertion
-	add_game: 'INSERT INTO user_games (username, gamename) VALUES($1,$2)',
-	add_play: 'INSERT INTO game_plays (user1, user2, gamename, winner) VALUES($1,$2,$3,$4)',
-	add_user: 'INSERT INTO username_password (username, password, status, first_name, last_name) VALUES ($1,$2,\'Bronze\',$3,$4)',
-	
-	// Login
-	userpass: 'SELECT * FROM username_password WHERE username=$1',
-	
-	// Update
-	update_info: 'UPDATE username_password SET first_name=$2, last_name=$3 WHERE username=$1',
-	update_pass: 'UPDATE username_password SET password=$2 WHERE username=$1',
-	
-	// Search
-	search_game: 'SELECT * FROM game_list WHERE lower(gamename) LIKE $1',
-	*/
 }
 
 module.exports = sql
