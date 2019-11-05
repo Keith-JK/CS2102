@@ -21,10 +21,10 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.post('/', (req, res, next) => {
+/* router.post('/', (req, res, next) => {
 	var user = global.user;
 	var startLocation = req.body.
 	pool.query(sql_query.query.)
-});
+}); */
 
 module.exports = router;

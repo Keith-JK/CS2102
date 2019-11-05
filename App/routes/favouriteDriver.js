@@ -13,7 +13,8 @@ router.get('/', function(req, res, next) {
   pool.query(sql_query.query.get_favourite_driver, [user], (err, data) => {
   		if(err){
   			throw err
-  		}
+		}
+		console.log("was here")
   		if(data.rows[0] != undefined){
   			res.render('favouriteDriver', {data: data.rows});
   		} else {
