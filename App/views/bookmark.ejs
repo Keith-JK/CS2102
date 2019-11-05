@@ -15,55 +15,51 @@
 
   </head>
 
-  <body >
+  <body class="text-center">
+    
     <div class="d-flex w-100 h-100 mx-auto flex-column">
     <header class="masthead mb-auto">
-      <h3 onclick="window.location.href='/homepage'" class="masthead-brand" data-desc="go homepage">grab express</h3>
+    <div class="inner">
+      <h3 class="masthead-brand" data-desc="You are already at homepage!">Grab Express</h3>
       <nav class="nav nav-masthead justify-content-center">
       <a href="/bookmark" class="nav-link active">Bookmarks</a>
       <a href="/favouriteDriver" class="nav-link active">Favourite drivers</a>
       <a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My profile</a>
           <div class="dropdown-menu" aria-labelledby="dropdown01">
             <a class="dropdown-item" href="/insert">My details</a>
-            <a class="dropdown-item" href="">History</a>
+            <a class="dropdown-item" >History</a>
             <a class="dropdown-item" id="logout" href="/logout">Logout</a>
           </div>
     </header>
 
-    <main role="main" class="awaitingApproval">
-      <div>
-        <H1 class="text-center title" ><%= title%></H1>
-        <form action="registerDriver" id="registerDriverForm" method="get">
-          <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Carplate Number</label>
-            <input type="text" class="form-control col-sm-7" id="platenumber" name="platenumber" placeholder="Enter your carplate number">
-          </div>
-          <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Car model</label>
-            <input type="text" class="form-control col-sm-7" id="model" name="model" placeholder="Enter your car model">
-          </div>
-          <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Capacity</label> 
-            <input type="text" class="form-control col-sm-7" id="capacity" name="capacity" placeholder="Enter your car Capacity">
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-       </form>
+    <main role="main" class="inner cover">
+      <div class="tabletitle">
       </div>
+        <h3>Here are your favourite Drivers!</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">FROM</th>
+              <th scope="col">TO</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i=0; i<data.length; i++) { %>
+            <tr>
+              <form action="/rides" method="post">
+              <td><%= data[i].pickup%></td>
+              <input type="hidden"  name="start_location" value="<%= data[i].pickup%>">
+              <td><%= data[i].dropoff%></td>
+              <input type="hidden"  name="end_location" value="<%= data[i].dropoff%>">
+              <td><button type="submit" id="verifydriver" class="btn btn-light btn-sm">Search for this listing!</button></td>
+              </form>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
     </main>
+    </script>
     </div>
-    
-    <!--
-    <script>
-      (function() {
-        window.addEventListener('load', function() {
-          var forms = [document.getElementById('registerDriverForm')];
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', check, false);
-          });
-        }, false);
-      })();
-    </script> 
-    -->
-
   </body>
 </html>

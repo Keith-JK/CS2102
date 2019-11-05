@@ -1,10 +1,26 @@
+const sql_query = require('../sql');
 var express = require('express');
 var router = express.Router();
+const { Pool } = require('pg')
+const pool = new Pool ({
+  connectionString: process.env.DATABASE_URL
+})
 
-/* GET home page. */
+/* GET favourite drivers. */
 router.get('/', function(req, res, next) {
   var user = global.user;
-  res.render('favouriteDriver');
+
+  pool.query(sql_query.query.get_favourite_driver, [user], (err, data) => {
+  		if(err){
+  			throw err
+  		}
+  		if(data.rows[0] != undefined){
+  			res.render('favouriteDriver', {data: data.rows});
+  		} else {
+  			res.render('favouriteDriverEmpty');
+  		}
+  });
+  
 });
 
 module.exports = router;

@@ -66,7 +66,7 @@ app.use('/individualRide', auth, individualRideRouter);
 app.use('/individualRideNoBids', auth, individualRideNoBidsRouter);
 app.use('/individualRideDriver', auth, individualRideDriverRouter);
 app.use('/favouriteDriver', auth, favouriteDriverRouter);
-app.use('/bookmarks', auth, bookmarkRouter);
+app.use('/bookmark', auth, bookmarkRouter);
 // app.use('/testpage', testPageRouter);
 
 
