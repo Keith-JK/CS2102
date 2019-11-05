@@ -215,3 +215,29 @@ INSERT INTO Bookmarks VALUES ('F', 'NORTH', 'SOUTH');
 INSERT INTO Bookmarks VALUES ('G', 'NORTH', 'SOUTH');
 INSERT INTO Bookmarks VALUES ('H', 'CENTRAL', 'EAST');
 INSERT INTO Bookmarks VALUES ('I', 'EAST', 'NORTH');
+
+CREATE OR REPLACE FUNCTION check_previous_bid ()
+RETURNS TRIGGER AS $$
+	DECLARE count NUMERIC;
+	BEGIN
+	SELECT COUNT(*) INTO count FROM Bids b
+	WHERE NEW.puname = b.puname AND
+	NEW.duname = b.puname AND
+	NEW.pickup = b.pickup AND
+	NEW.dropoff = b.dropoff AND
+	NEW.ride_date = b.ride_date AND 
+	NEW.start_time = b.start_time;
+	
+	IF count > 0 THEN 
+	RETURN UPDATE (OLD.puname, OLD.duname, OLD.pickup, OLD.dropoff, OLD.ride_date, OLD.start_time, NEW.amount);
+
+	ELSE RETURN NEW;
+	ENDIF;
+
+	END; 
+
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_bid_insert()
+BEFORE INSERT OR UPDATE ON Bids
+EXECUTE PROCEDURE check_previous_bid();
