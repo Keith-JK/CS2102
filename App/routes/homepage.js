@@ -1,11 +1,12 @@
-const sql_query = require('../sql');
 var express = require('express');
 var router = express.Router();
+
 const url = require('url'); 
 const { Pool } = require('pg')
 const pool = new Pool ({
   connectionString: process.env.DATABASE_URL
 })
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -26,6 +27,7 @@ router.get('/', function(req, res, next) {
   	}
   });
 });
+
 
 router.post('/', (req, res, next) => {
   var duname = req.body.duname
