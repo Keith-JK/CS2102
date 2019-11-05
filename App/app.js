@@ -154,6 +154,14 @@ app.get("/login", function(req, res) {
   });
 });
 
+// GET /LOGOUT
+app.get("/logout", function(req,res){
+  console.log("logging out,", global.user, global.token)
+  global.user = null
+  global.token = null
+  res.redirect("/")
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
