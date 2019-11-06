@@ -23,6 +23,12 @@ sql.query = {
 	get_driver_rides: 'SELECT * FROM RIDES WHERE username = $1', 
 	get_favourite_driver: 'SELECT * FROM likes WHERE puname = $1',
 	get_bookmarks: 'SELECT * FROM bookmarks WHERE puname = $1',
+	get_history_as_driver:'SELECT * FROM rides NATURAL JOIN bids WHERE is_complete = TRUE AND duname = $1',
+	get_history_as_passenger:'SELECT * FROM rides NATURAL JOIN bids WHERE is_complete = TRUE AND puname = $1 AND is_win = TRUE',
+	get_upcoming_rides_driver: 'SELECT * FROM rides WHERE is_complete = FALSE AND username = $1',
+	// doesn't work: date in psql is different from date nodejs query get
+	complete_upcoming_rides_driver: 'UPDATE rides SET is_complete = TRUE WHERE username = $1 AND pickup = $2 AND dropoff = $3 AND ride_date = $4 AND start_time = $5',
+	get_upcoming_rides_passenger: 'SELECT * FROM rides NATURAL JOIN bids WHERE is_win = TRUE AND puname = $1 AND is_complete = FALSE', // bids won but ride not complete
 	check_driver_exists_and_verified: 'SELECT duname, is_verified FROM driver d, verify v WHERE d.username = v.duname AND d.username = $1', 
 	driver_rating: 'SELECT ROUND(AVG(rating),2) FROM ratings GROUP BY duname HAVING duname = $1',
 	rides_search: 'SELECT * FROM rides r WHERE r.pickup = $1 AND r.dropoff = $2',

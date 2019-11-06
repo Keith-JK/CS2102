@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<!-- Page Title -->
+    <title>CS2102 Starter Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- CSS for Styling -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+			<!-- JavaScript for Interactivity -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  </head>
+
+  <body class="text-center">
+    
+    <div class="d-flex w-100 h-100 mx-auto flex-column">
+    <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 onclick="window.location.href='/homepage'" class="masthead-brand" data-desc="go homepage">Grab Express</h3>
+      <nav class="nav nav-masthead justify-content-center">
+      <a href="/bookmark" class="nav-link active">Bookmarks</a>
+      <a href="/favouriteDriver" class="nav-link active">Favourite drivers</a>
+      <a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My profile</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <a class="dropdown-item" href="/insert">My details</a>
+            <a class="dropdown-item" >History</a>
+            <a class="dropdown-item" id="logout" href="/logout">Logout</a>
+          </div>
+    </header>
+
+    <main role="main" class="inner cover">
+        <div class="tabletitle">
+            <h3>Here are your upcoming drives!</h3>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">FROM</th>
+              <th scope="col">TO</th>
+              <th scope="col">DATE</th>
+              <th scope="col">START TIME</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i=0; i<upcoming_driver.length; i++) { %>
+            <tr>
+              <form action="/history/completeRide" method="post">
+              <td><%= upcoming_driver[i].pickup%></td>
+              <input type="hidden"  name="start_location" value="<%= upcoming_driver[i].pickup%>">
+              <td><%= upcoming_driver[i].dropoff%></td>
+              <input type="hidden"  name="end_location" value="<%= upcoming_driver[i].dropoff%>">
+              <td><%= displaydate(upcoming_driver[i].ride_date)%></td>
+              <input type="hidden"  name="ride_date" value="<%= displaydate(upcoming_driver[i].ride_date)%>">
+              <td><%= upcoming_driver[i].start_time%></td>
+              <input type="hidden"  name="start_time" value="<%= upcoming_driver[i].start_time%>">
+    
+              <td><button type="submit" id="verifydriver" class="btn btn-light btn-sm">Ride is completed!</button></td>
+              </form>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+
+        <div class="tabletitle">
+            <h3>Here are your upcoming rides you have won!</h3>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">FROM</th>
+              <th scope="col">TO</th>
+              <th scope="col">DATE</th>
+              <th scope="col">START TIME</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i=0; i<upcoming_passenger.length; i++) { %>
+            <tr>
+    
+              <td><%= upcoming_passenger[i].pickup%></td>
+              <input type="hidden"  name="start_location" value="<%= upcoming_passenger[i].pickup%>">
+              <td><%= upcoming_passenger[i].dropoff%></td>
+              <input type="hidden"  name="end_location" value="<%= upcoming_passenger[i].dropoff%>">
+              <td><%= displaydate(upcoming_passenger[i].ride_date)%></td>
+              <input type="hidden"  name="ride_date" value="<%= upcoming_passenger[i].ride_date%>">
+              <td><%= upcoming_passenger[i].start_time%></td>
+              <input type="hidden"  name="start_time" value="<%= upcoming_passenger[i].start_time%>">
+    
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+
+        <div class="tabletitle">
+            <h3>Here are your past rides as a driver!</h3>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">FROM</th>
+                <th scope="col">TO</th>
+                <th scope="col">DATE</th>
+                <th scope="col">START TIME</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i<history_driver.length; i++) { %>
+                <tr>
+                <td><%= history_driver[i].pickup%></td>
+                <input type="hidden"  name="start_location" value="<%= history_driver[i].pickup%>">
+                <td><%= history_driver[i].dropoff%></td>
+                <input type="hidden"  name="end_location" value="<%= history_driver[i].dropoff%>">
+                <td><%= displaydate(history_driver[i].ride_date)%></td>
+                <input type="hidden"  name="ride_date" value="<%= history_driver[i].ride_date%>">
+                <td><%= history_driver[i].start_time%></td>
+                <input type="hidden"  name="start_time" value="<%= history_driver[i].start_time%>">
+        
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+        <div class="tabletitle">
+            <h3>Here are your past rides as a passenger!</h3>
+        </div>  
+        <table class="table">
+            <thead>
+              <tr>
+              <th scope="col">DRIVER</th>
+              <th scope="col">FROM</th>
+              <th scope="col">TO</th>
+              <th scope="col">DATE</th>
+              <th scope="col">START TIME</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i<history_passenger.length; i++) { %>
+                <tr>
+                <td><%= history_passenger[i].duname%></td>
+                <input type="hidden"  name="duname" value="<%= history_passenger[i].duname%>">
+                <td><%= history_passenger[i].pickup%></td>
+                <input type="hidden"  name="start_location" value="<%= history_passenger[i].pickup%>">
+                <td><%= history_passenger[i].dropoff%></td>
+                <input type="hidden"  name="end_location" value="<%= history_passenger[i].dropoff%>">
+                <td><%= displaydate(history_passenger[i].ride_date)%></td>
+                <input type="hidden"  name="ride_date" value="<%= history_passenger[i].ride_date%>">
+                <td><%= history_passenger[i].start_time%></td>
+                <input type="hidden"  name="start_time" value="<%= history_passenger[i].start_time%>">
+                </tr>
+                <% } %>                
+            </tbody>
+        </table>
+        <%
+        //this is the function to get the date in a presentable form
+        function displaydate(date) {
+          var month = date.getUTCMonth() + 1; //months from 1-12
+          var day = date.getUTCDate();
+          var year = date.getUTCFullYear();
+          newdate = year + "-" + month + "-" + day;
+          return newdate;
+        }
+        %>
+    </main>
+    </div>
+  </body>
+</html>
