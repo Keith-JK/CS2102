@@ -16,9 +16,9 @@ router.get('/', function(req, res, next) {
 		}
 		console.log("was here")
   		if(data.rows[0] != undefined){
-  			res.render('favouriteDriver', {data: data.rows});
+  			res.render('favouriteDriver', {data: data.rows, title: null});
   		} else {
-  			res.render('favouriteDriverEmpty');
+  			res.render('favouriteDriverEmpty', {title: null});
   		}
   });
   
