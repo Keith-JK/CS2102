@@ -54,7 +54,7 @@ router.post('/', function(req, res, next) {
 			console.error("Error in adding ride", err);
 			res.redirect('/');
 		}
-		res.redirect('/homepage')
+		res.redirect('/driver')
 	});
 	
 });

@@ -47,7 +47,7 @@ router.get('/', function(req, res, next) {
 					console.log(err);
 				} else {
 					console.log(`added driver!`);
-					pool.query(sql_query.query.add_verify, [username, today], (err, data) => {
+					pool.query(sql_query.query.add_verify_request, [username, today], (err, data) => {
 						if(err) {
 							console.log(err);
 						} else {
@@ -62,9 +62,10 @@ router.get('/', function(req, res, next) {
 			if(err) {
 				console.error("Error in adding car", err);
 				res.redirect('/');
+			}else{
+				console.log(`added car!`);
+				res.redirect('/homepage')
 			}
-			console.log(`added car!`);
-			res.redirect('/homepage')
 		});
 	}
 });

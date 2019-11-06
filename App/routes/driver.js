@@ -12,11 +12,12 @@ router.get('/', function(req, res, next) {
   var user = global.user
 
   pool.query(sql_query.query.check_driver_exists_and_verified, [user], (err, data) => {
+    console.log("driver.js", data.rows[0])
       if(err){
           throw err
-      } 
-      else if (data.rows[0] != undefined) {
-         if(data.rows[0].is_verified) {
+      }else{
+        if (data.rows[0] != undefined) {
+          if(data.rows[0].is_verified) {
             pool.query(sql_query.query.get_driver_rides, [user], (err, data) => {
                 if(err){
                     throw err
@@ -25,11 +26,14 @@ router.get('/', function(req, res, next) {
                 }
             });   
           } else {
+            console.log("driver awaiting approval")
             res.redirect('awaitingApproval');
           }
-      } else {
+        } else {
+          console.log("driver is not in verify table, proceed to register")
           res.redirect('registerDriver');
-      }  
+        } 
+    } 
   });
 });
 
