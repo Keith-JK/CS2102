@@ -62,7 +62,11 @@ router.post("/completeRide", function(req, res, next){
     console.log(ride_date)
     console.log(divider)
     console.log(start_time) */
-    pool.query(sql_query.query.complete_upcoming_rides_driver, [duname, start_location, end_location, ride_date, start_time], (err, data)=>{
+
+    // this POST request doesn't do jack shit since date is fked up
+    res.redirect("/history")
+    
+    /* pool.query(sql_query.query.complete_upcoming_rides_driver, [duname, start_location, end_location, ride_date, start_time], (err, data)=>{
         if(err){
             console.log(err)
         }else{
@@ -73,7 +77,7 @@ router.post("/completeRide", function(req, res, next){
                 res.redirect("/history")
             }
         }
-    })
+    }) */
 })
 
 module.exports = router;
