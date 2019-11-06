@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
 router.post('/', (req, res, next) => {
 	var user = global.user;
 	var startLocation = req.body.start_location;
-  var endLocation = req.body.end_location;
+  	var endLocation = req.body.end_location;
 	pool.query(sql_query.query.add_bookmark, [user, startLocation, endLocation], (err, data) => {
       if(err){
         throw err
