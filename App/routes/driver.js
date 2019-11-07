@@ -20,9 +20,19 @@ router.get('/', function(req, res, next) {
           if(data.rows[0].is_verified) {
             pool.query(sql_query.query.get_driver_rides, [user], (err, data) => {
                 if(err){
-                    throw err
+                  throw err
                 } else {
-                    res.render('driverVerified', {title: 'Grab Express', data: data.rows});
+                  pool.query(sql_query.query.driver_rating, [user], (err, ratings)=>{
+                    if(err){
+                      console.log(err)
+                    }else{
+                      if(ratings.rowCount == 1){
+                        res.render('driverVerified', {title: 'Grab Express', data: data.rows, rating: ratings.rows[0].round});
+                      }else{
+                        res.render('driverVerified', {title: 'Grab Express', data: data.rows, ratings: "No ratings given"});
+                      }
+                    }
+                  })
                 }
             });   
           } else {

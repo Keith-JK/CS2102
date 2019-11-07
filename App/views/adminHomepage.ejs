@@ -35,42 +35,46 @@
     <main role="main" class="inner cover">
       <div class="tabletitle">
         <p id="quest-denied" class="lead">Hi there admin <%= user%>, What are you doing today?</p>
-        <% if(gotVerify){ %>
-          <p class="lead" id="alert">Verified Successfully</p>
-        <% } %>
       </div>
       <div class="btn-group" role="group" aria-label="buttons">
         <button type="button" onclick="window.location.href='/driver'" class="btn btn-light btn-lg mr-3 homepagebutton">driving</button>
         <button type="button" onclick="window.location.href='/rides'" class="btn btn-dark btn-lg homepagebutton">extra in other ppl car</button>
       </div>
 
-        <h3>New driver request</h3>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Driver Username</th>
-              <th scope="col">Driver Name</th>
-              <th scope="col">Request Date</th>
-              <th scope="col">Verify Driver</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% for(var i=0; i<data.length; i++) { %>
-            <tr>
-              <form action="homepage" method="post">
-              <td><%= data[i].duname%></td>
-              <input type="hidden"  name="duname" value="<%= data[i].duname%>">
-              <td><%= data[i].name%></td>
-              <input type="hidden"  name="name" value="<%= data[i].name%>">
-              <td><%= displaydate(data[i].since)%></td>
-              <input type="hidden"  name="since" value="<%= data[i].since%>">
-              <input type="hidden"  name="gotVerify" value="True">
-              <td><button type="submit" id="verifydriver" class="btn btn-light btn-sm">Verified!</button></td>
-              </form>
-            </tr>
-            <% } %>
-          </tbody>
-        </table>
+      <% if(gotVerify){ %>
+        <div class="alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Verification Success!</strong>
+          </div>
+      <% } %>
+      
+      <h3>New driver request</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Driver Username</th>
+            <th scope="col">Driver Name</th>
+            <th scope="col">Request Date</th>
+            <th scope="col">Verify Driver</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i=0; i<data.length; i++) { %>
+          <tr>
+            <form action="homepage" method="post">
+            <td><%= data[i].duname%></td>
+            <input type="hidden"  name="duname" value="<%= data[i].duname%>">
+            <td><%= data[i].name%></td>
+            <input type="hidden"  name="name" value="<%= data[i].name%>">
+            <td><%= displaydate(data[i].since)%></td>
+            <input type="hidden"  name="since" value="<%= data[i].since%>">
+            <input type="hidden"  name="gotVerify" value="True">
+            <td><button type="submit" id="verifydriver" class="btn btn-light btn-sm">Verified!</button></td>
+            </form>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
     </main>
 
     <%
