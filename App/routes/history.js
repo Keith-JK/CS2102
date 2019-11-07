@@ -10,7 +10,6 @@ const pool = new Pool ({
 /* GET history */
 router.get('/', function(req, res, next) {
   var user = global.user;
-  // user = 'A'
   pool.query(sql_query.query.get_upcoming_rides_driver, [user], (err, up_driver) => {
   	if(err){
   		throw err
@@ -48,8 +47,8 @@ router.get('/', function(req, res, next) {
 
 // doesnt work since the date we get in the query is different from the date in psql
 router.post("/completeRide", function(req, res, next){
+    console.log("POST completing the ride")
     var duname = global.user
-    // duname = 'A'
     var start_location = req.body.start_location
     var end_location = req.body.end_location
     var ride_date = req.body.ride_date
@@ -61,23 +60,57 @@ router.post("/completeRide", function(req, res, next){
     console.log(divider)
     console.log(ride_date)
     console.log(divider)
-    console.log(start_time) */
-
-    // this POST request doesn't do jack shit since date is fked up
-    res.redirect("/history")
+    console.log(start_time)
+    console.log(divider) */
+    console.log("Adding 1 day to ride_date due to time-zone inconsistency")
+    var date = new Date(ride_date)
+    var newDate = new Date(date.setTime(date.getTime() + 1 * 86400000 ));
+    newDate = moment(newDate).utc().format("YYYY-MM-DD")
+    console.log("oldDate =", ride_date, "newDate =", newDate)
     
-    /* pool.query(sql_query.query.complete_upcoming_rides_driver, [duname, start_location, end_location, ride_date, start_time], (err, data)=>{
+    pool.query(sql_query.query.complete_upcoming_rides_driver, [duname, start_location, end_location, newDate, start_time], (err, data)=>{
         if(err){
             console.log(err)
         }else{
-            console.log("ok")
             if(data.rowCount == 1){
                 console.log("Successful completion of ride!")
                 // refresh page
                 res.redirect("/history")
             }
         }
-    }) */
+    })
 })
 
+router.post("/add_to_favourites", function(req, res, next){
+    console.log("POST add to favourites")
+    var duname = req.body.duname
+    var puname = global.user
+    pool.query(sql_query.query.check_if_driver_already_favourited, [puname, duname], (err,data)=>{
+        if(err){
+            console.log(err)
+        }else{
+            // driver already in favourites
+            if(data.rowCount == 1){
+                res.redirect("/favouriteDriver")
+            }else{
+                // Adding to favourites
+                pool.query(sql_query.query.add_favourite_driver, [puname, duname], (err,data)=>{
+                    if(err){
+                        console.log(err)
+                    }else{
+                        if(data.rowCount == 1){
+                            console.log("Added", duname, "To Favourite Driver of", puname)
+                            res.redirect("/favouriteDriver")
+                        }else{
+                            console.log("Unsuccesful Insertion into Likes!")
+                            res.redirect("/favouriteDriver")
+                        }
+                    }
+                })
+            }
+        }
+    })
+
+
+})
 module.exports = router;

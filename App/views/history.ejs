@@ -141,6 +141,7 @@
             <tbody>
                 <% for(var i=0; i<history_passenger.length; i++) { %>
                 <tr>
+                <form action="/history/add_to_favourites" method="post">
                 <td><%= history_passenger[i].duname%></td>
                 <input type="hidden"  name="duname" value="<%= history_passenger[i].duname%>">
                 <td><%= history_passenger[i].pickup%></td>
@@ -151,6 +152,9 @@
                 <input type="hidden"  name="ride_date" value="<%= history_passenger[i].ride_date%>">
                 <td><%= history_passenger[i].start_time%></td>
                 <input type="hidden"  name="start_time" value="<%= history_passenger[i].start_time%>">
+
+                <td><button type="submit" id="verifydriver" class="btn btn-light btn-sm">Add to Favourites!</button></td>
+                </form>
                 </tr>
                 <% } %>                
             </tbody>
