@@ -35,6 +35,7 @@
     <main role="main">
       <h2 class="mt-2">Driver dashboard</h2>
       <h3 class="pt-5">Your rides</h3>
+      <a href='addRide' class="btn btn-outline-light">Post a new ride!</a>
       <div class="ridescontainer">
       <%
       //this is the function to get the date in a presentable form
@@ -51,7 +52,8 @@
                 <div class="card-body bg-dark">
                   <form action="individualRideDriver" method="get">
                   <h5 class="card-title" name="location"><%= data[i].pickup%> TO <%= data[i].dropoff%></h5>
-                  <input type="hidden"  name="locationValue" value="<%= data[i].pickup%> TO <%= data[i].dropoff%>">
+                  <input type="hidden"  name="pickup" value="<%= data[i].pickup%>">
+                  <input type="hidden"  name="dropoff" value="<%= data[i].dropoff%>">
                   <p class="card-text" name="time">Start time: <%= data[i].start_time%></p>
                   <input type="hidden"  name="timeValue" value="<%= data[i].start_time%>">
                   <p class="card-text" name="date">Date: <%= displaydate(data[i].ride_date)%></p>

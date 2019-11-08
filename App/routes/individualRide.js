@@ -11,9 +11,8 @@ const pool = new Pool ({
 
 router.get('/', function(req, res, next) {
 	
-	var arr = req.query.locationValue.split(" ");
-	var pickup = arr[0].toUpperCase();
-	var dropoff = arr[2].toUpperCase();
+	var pickup = req.query.pickup
+	var dropoff = req.query.dropoff;
 	var driver = req.query.driverValue;
 	var date = new Date(Date.parse(req.query.dateValue));
 	var time = req.query.timeValue;
@@ -40,8 +39,6 @@ router.post('/', function(req,res,next) {
 	var dropoff = req.body.dropoff;
 	var duname = req.body.duname;
 	var puname = global.user;
-
-	//set trigger such that if >5 time bid for same travel path, auto add into bookmarks;
 
 	pool.query(sql_query.query.add_bid, [puname, duname, pickup, dropoff, dateValue, timeValue, bid], (err,data) => {
 		if(err) {

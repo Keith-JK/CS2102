@@ -34,26 +34,4 @@ router.get('/', function(req, res, next) {
 });
 
 
-
-
-
-
-/* GET register driver page STILL IN WORKS 
-router.get('/', function(req, res, next) {
-  if(
-  	//new driver
-  	) {
-  		res.render('registerDriver', { title: 'Driver' });
-  	}
-   else if (
-  	// pending approval from admin
-  	) {
-  		res.render('awaitingApproval', { title: 'username' });
-  	} 
-  	else {
-  		res.render('postRides', { title: 'username' });
-  	}
-});
-*/
-
 module.exports = router;

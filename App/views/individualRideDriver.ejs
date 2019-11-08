@@ -50,6 +50,7 @@
             <input type="hidden"  name="pickup" value="<%= data[0].pickup%>">
             <input type="hidden"  name="dropoff" value="<%= data[0].dropoff%>">
             <input type="hidden"  name="duname" value="<%= data[0].duname%>">
+            <input type="hidden"  name="capacity" value="<%= data[0].capacity%>">
             <button class="btn btn-secondary" onclick="Submit">Accept best bids!</button>
          </form>
        </div>
@@ -63,14 +64,25 @@
             <th scope="col">Username</th>
             <th scope="col">Bid amount</th>
             <th scope="col">status</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
           <% for (var i = 0; i < data.length; i++ ) { %>
             <tr>
-              <td><%= data[i].puname %></td>
-              <td><%= data[i].amount %></td>
-              <td><%= data[i].is_win %></td>
+              <form action="updateBid" method="post">
+                <td><%= data[i].puname %></td>
+                <input type="hidden"  name="puname" value="<%= data[i].puname%>">
+                <td><%= data[i].amount %></td>
+                <input type="hidden"  name="amount" value="<%= data[i].amount%>">
+                <td><%= data[i].is_win %></td>
+                <input type="hidden"  name="time" value="<%= data[i].start_time%>">
+                <input type="hidden"  name="date" value="<%= data[i].ride_date%>">
+                <input type="hidden"  name="pickup" value="<%= data[i].pickup%>">
+                <input type="hidden"  name="dropoff" value="<%= data[i].dropoff%>">
+                <input type="hidden"  name="duname" value="<%= data[i].duname%>">
+                <td><button type="submit" class="btn btn-light btn-sm">Accept this Bid</button></td>
+              </form>
             </tr>
           <% } %>
         </tbody>

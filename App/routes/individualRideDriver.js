@@ -11,9 +11,8 @@ const pool = new Pool ({
 
 router.get('/', (req, res, next) => {
 	
-	var arr = req.query.locationValue.split(" ");
-	var pickup = arr[0].toUpperCase();
-	var dropoff = arr[2].toUpperCase();
+	var pickup = req.query.pickup;
+	var dropoff = req.query.dropoff;
 	var date = new Date(Date.parse(req.query.dateValue));
 	var time = req.query.timeValue;
 	var user = global.user;
@@ -31,12 +30,18 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req,res,next) => {
-	var pickup = req.param.pickup;
-	var dropoff = req.param.dropoff;
-	var startDate = req.param.dateValue;
-	var time = req.param.timeValue;
+	var pickup = req.body.pickup;
+	var dropoff = req.body.dropoff;
+	var startDate = new Date(Date.parse(req.body.dateValue));
+	var time = req.body.timeValue;
+	var capacity = req.body.capacity;
 
-	console.log(`${pickup} TO ${dropoff} received!`)
+	pool.query(sql_query.query.update_win_bid,[pickup, dropoff, startDate, time, global.user, capacity], (err, data) => {
+		if(err){
+			throw err
+		} 
+		res.redirect('/homepage');
+	})
 });
 
 

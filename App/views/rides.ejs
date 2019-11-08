@@ -59,7 +59,8 @@
                 <div class="card-body bg-dark">
                   <form action="individualRide" method="get">
                   <h5 class="card-title" name="location"><%= data[i].pickup%> TO <%= data[i].dropoff%></h5>
-                  <input type="hidden"  name="locationValue" value="<%= data[i].pickup%> TO <%= data[i].dropoff%>">
+                  <input type="hidden"  name="pickup" value="<%= data[i].pickup%>">
+                  <input type="hidden"  name="dropoff" value="<%= data[i].dropoff%>">
                   <p class="card-text" name="time">Start time: <%= data[i].start_time%></p>
                   <input type="hidden"  name="timeValue" value="<%= data[i].start_time%>">
                   <p class="card-text" name="date">Date: <%= displaydate(data[i].ride_date)%></p>

@@ -33,6 +33,7 @@ var registerUserRouter = require('./routes/registerUser');
 var individualRideDriverRouter = require('./routes/individualRideDriver');
 var favouriteDriverRouter = require('./routes/favouriteDriver');
 var bookmarkRouter = require('./routes/bookmark');
+var updateBidRouter = require('./routes/updateBid');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -67,6 +68,7 @@ app.use('/individualRideNoBids', auth, individualRideNoBidsRouter);
 app.use('/individualRideDriver', auth, individualRideDriverRouter);
 app.use('/favouriteDriver', auth, favouriteDriverRouter);
 app.use('/bookmark', auth, bookmarkRouter);
+app.use('/updateBid', auth, updateBidRouter);
 // app.use('/testpage', testPageRouter);
 
 
