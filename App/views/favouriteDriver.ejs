@@ -46,7 +46,7 @@
           <tbody>
             <% for(var i=0; i<data.length; i++) { %>
             <tr>
-              <form action="" method="post">
+              <form action="rides" method="post">
               <td><%= data[i].duname%></td>
               <input type="hidden"  name="duname" value="<%= data[i].duname%>">
               <td><button type="submit" id="verifydriver" class="btn btn-light btn-sm">Check out his listings!</button></td>

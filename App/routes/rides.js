@@ -19,15 +19,25 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-	var start_location = req.body.start_location.toUpperCase();
-	var end_location = req.body.end_location.toUpperCase();
+	var duname = req.body.duname;
 	
-	pool.query(sql_query.query.rides_search, [start_location, end_location], (err, data) => {
-		if (err) {
-    		throw err
-  		}
-		res.render('rides', { title: 'rides page', data: data.rows });
-	});
+	if(duname == undefined){
+	 	var start_location = req.body.start_location.toUpperCase();
+		var end_location = req.body.end_location.toUpperCase();
+		pool.query(sql_query.query.rides_search, [start_location, end_location], (err, data) => {
+			if (err) {
+	    		throw err
+	  		}
+			res.render('rides', { title: 'rides page', data: data.rows });
+		});
+	} else {
+		pool.query(sql_query.query.get_upcoming_rides_driver, [duname], (err, data) => {
+			if (err) {
+	    		throw err
+	  		}
+			res.render('rides', { title: 'rides page', data: data.rows });
+		});
+	}
 });
 
 
