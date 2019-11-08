@@ -23,10 +23,8 @@ router.get('/', function(req, res, next) {
   	if(data.rows[0] != undefined){
   		pool.query(sql_query.query.get_verify, (err, data) => {
         if(gotClick){
-          console.log("GOT CLICKED", gotClick)
           res.render('adminHomepage', {title: 'Express', user: user, data: data.rows, gotVerify : gotClick});
         }else{
-          console.log("NEVER CLICK,", gotClick)
           res.render('adminHomepage', {title: 'Express', user: user, data: data.rows, gotVerify: gotClick});
         }
   		});	
@@ -41,10 +39,6 @@ router.get('/', function(req, res, next) {
 router.post('/', (req, res, next) => {
   var duname = req.body.duname
   var gotVerify = req.body.gotVerify
-  console.log("gotVerify ==", gotVerify, typeof(gotVerify))
-  if(gotVerify == "True"){
-    console.log("ok")
-  }
   pool.query(sql_query.query.add_verify, [duname], (err, data) => {
       if(err){
         throw err

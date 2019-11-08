@@ -13,12 +13,12 @@ const pool = new Pool({
 router.get('/', function(req, res, next) {
   pool.query(sql_query.query.check_driver_verified, [global.user], (err, data) =>{
     if(data.rows[0] == undefined){
-      // driver not registered 
-      console.log("driver not registered, redirecting to registerDriver")
-      res.redirect("/registerDriver")
-    }else{
       // driver awaiting approval
       res.render('awaitingApproval', { title: 'Patience is key' });
+    }else{
+      // driver not registered 
+      console.log("driver verified, redirecting to /driver")
+      res.redirect("/driver")
     }
   })
 });

@@ -12,24 +12,38 @@ router.get('/', function(req, res, next) {
   var user = global.user
 
   pool.query(sql_query.query.check_driver_exists_and_verified, [user], (err, data) => {
+    console.log("driver.js", data.rows[0])
       if(err){
           throw err
-      } 
-      else if (data.rows[0] != undefined) {
-         if(data.rows[0].is_verified) {
+      }else{
+        if (data.rows[0] != undefined) {
+          if(data.rows[0].is_verified) {
             pool.query(sql_query.query.get_driver_rides, [user], (err, data) => {
                 if(err){
-                    throw err
+                  throw err
                 } else {
-                    res.render('driverVerified', {title: 'Grab Express', data: data.rows});
+                  pool.query(sql_query.query.driver_rating, [user], (err, ratings)=>{
+                    if(err){
+                      console.log(err)
+                    }else{
+                      if(ratings.rowCount == 1){
+                        res.render('driverVerified', {title: 'Grab Express', data: data.rows, rating: ratings.rows[0].round});
+                      }else{
+                        res.render('driverVerified', {title: 'Grab Express', data: data.rows, ratings: "No ratings given"});
+                      }
+                    }
+                  })
                 }
             });   
           } else {
+            console.log("driver awaiting approval")
             res.redirect('awaitingApproval');
           }
-      } else {
+        } else {
+          console.log("driver is not in verify table, proceed to register")
           res.redirect('registerDriver');
-      }  
+        } 
+    } 
   });
 });
 
