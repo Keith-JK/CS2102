@@ -15,39 +15,30 @@
 
   </head>
 
-  <body class="text-center">
-    
+  <body >
+   
     <div class="d-flex w-100 h-100 mx-auto flex-column">
     <header class="masthead mb-auto">
     <div class="inner">
-      <h3 class="masthead-brand" data-desc="You are already at homepage!">Grab <%= title%></h3>
+      <h3 onclick="window.location.href='/homepage'" class="masthead-brand" data-desc="go homepage">grab express</h3>
       <nav class="nav nav-masthead justify-content-center">
       <a href="/bookmark" class="nav-link active">Bookmarks</a>
       <a href="/favouriteDriver" class="nav-link active">Favourite drivers</a>
       <a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My profile</a>
           <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a class="dropdown-item" href="/insert">My details</a>
+            <a class="dropdown-item" href="/messages">My messages</a>
             <a class="dropdown-item" href="/history">History</a>
             <a class="dropdown-item" id="logout" href="/logout">Logout</a>
           </div>
     </header>
 
-    <main role="main" class="inner cover">
-      <h1>CS2102: <%= title%></h1>
-      <div class="container">
-        <% for(var i=0; i<data.length; i++) { %>
-            <div class="card" style="width: 15rem;">
-                <div class="card-body bg-dark">
-                  <h5 class="card-title"><%= data[i].pickup%> TO <%= data[i].dropoff%></h5>
-                  <p class="card-text">Start time: <%= data[i].start_time%></p><br>
-                  <p class="card-text">Capacity: <%= data[i].capacity%></p>
-                  <a href="#" class="btn btn-primary">Bid for ride</a>
-
-                </div>
-            </div>   
-        <% } %>
-      </div>  
+    <main role="main" class="awaitingApproval">
+      <div>
+        <p class="text-center text-align:center">Error in sending message!</p>
+        <p id="request-denied" class="lead text-align:center">No such user!</p>
+      </div>
     </main>
 
+    </div>
   </body>
 </html>

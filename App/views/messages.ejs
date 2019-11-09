@@ -11,14 +11,17 @@
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
   </head>
 
-  <body >
+  <body class="text-center">
+    
     <div class="d-flex w-100 h-100 mx-auto flex-column">
     <header class="masthead mb-auto">
-      <h3 onclick="window.location.href='/homepage'" class="masthead-brand" data-desc="go homepage">grab express</h3>
+    <div class="inner">
+      <h3 onclick="window.location.href='/homepage'" class="masthead-brand" data-desc="go homepage">Grab Express</h3>
       <nav class="nav nav-masthead justify-content-center">
       <a href="/bookmark" class="nav-link active">Bookmarks</a>
       <a href="/favouriteDriver" class="nav-link active">Favourite drivers</a>
@@ -30,23 +33,51 @@
           </div>
     </header>
 
-    <main role="main" class="awaitingApproval">
-      <div>
-        <H1 class="text-center title" >Add a Bookmark</H1>
-        <form action="bookmark"  method="post">
-          <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Start location</label>
-            <input type="text" class="form-control col-sm-7" id="start_location" name="start_location" placeholder="Enter you want to be picked up from">
+    <main role="main" class="inner cover">
+        <h2>Your messages</h2>    
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">FROM</th>
+              <th scope="col">MESSAGE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i=0; i<messages.length; i++) { %>
+            <tr>
+              <td><%= messages[i].sender%></td>         
+              <td><%= messages[i].message%></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+
+        <div class="form-group messagebox">
+          <h3>Send a message</h3>
+          <form action="/messages/sendMessage" method="post">
+            <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Send To</label>
+              <input type="text" class="form-control col-sm-7" id="receiver" name="receiver" placeholder="Enter recipient username">
+            </div>
+            <div class="form-group row">
+              <label for="name" class="col-sm-2 col-form-label">Message</label>
+              <textarea class="form-control col-sm-7" rows="3" name="message" placeholder="What's up?" required></textarea>
           </div>
-          <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">End location</label>
-            <input type="text" class="form-control col-sm-7" id="end_location" name="end_location" placeholder="Enter where you want to go">
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-       </form>
-      </div>
+          <button type="submit" class="btn btn-light px-3">send message</button>
+          </form>
+        </div>
+
+        <%
+        //this is the function to get the date in a presentable form
+        function displaydate(date) {
+          var month = date.getUTCMonth() + 1; //months from 1-12
+          var day = date.getUTCDate();
+          var year = date.getUTCFullYear();
+          newdate = year + "-" + month + "-" + day;
+          return newdate;
+        }
+        %>
     </main>
     </div>
-
   </body>
 </html>

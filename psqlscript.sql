@@ -118,7 +118,7 @@ CREATE TABLE Messages (
 	receiver varchar(100) REFERENCES Users,
 	message varchar (500) NOT NULL,
 	sent_time time NOT NULL,
-	PRIMARY KEY (sender, receiver, time)
+	PRIMARY KEY (sender, receiver, sent_time)
 );
 
 

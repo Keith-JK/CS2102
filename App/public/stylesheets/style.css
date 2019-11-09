@@ -249,3 +249,8 @@ body {
 .tabletitle {
   position: sticky;
 }
+
+.messagebox {
+  border: 3px solid #FFFFFF;
+  padding-top: 20px;
+}

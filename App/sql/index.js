@@ -16,9 +16,14 @@ sql.query = {
 	add_car: 'INSERT INTO car (platenumber, model, capacity) VALUES($1,$2,$3)',
 	all_car: 'SELECT * FROM car',
 
+	// messages
+	get_messages: 'SELECT * FROM messages WHERE receiver = $1 ORDER BY sent_time DESC',
+	insert_message: 'INSERT INTO messages (sender, receiver, message, sent_time) VALUES($1, $2, $3, $4)',
+
 	// verification - driver
 	get_verify: 'SELECT * FROM verify v, users u WHERE v.is_verified = \'FALSE\' AND u.username = v.duname',
 	add_verify: 'UPDATE verify SET is_verified = TRUE WHERE duname = $1',
+
 	// default admin name is Z and default is_verified = FALSE
 	add_verify_request: 'INSERT INTO verify VALUES(\'Z\', $1, $2, FALSE)',
 	check_user_is_admin: 'SELECT * FROM admin a WHERE a.username = $1', 
