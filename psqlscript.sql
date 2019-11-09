@@ -171,7 +171,7 @@ INSERT INTO Rides VALUES ('A', 'EAST', 'NORTH', '1-1-2019', '12:00:00', 2);
 INSERT INTO Rides VALUES ('A', 'EAST', 'NORTH', '1-1-2019', '16:00:00', 2);
 INSERT INTO Rides VALUES ('B', 'WEST', 'CENTRAL', '1-1-2019', '14:00:00', 2);
 INSERT INTO Rides VALUES ('B', 'WEST', 'CENTRAL', '1-1-2019', '16:00:00', 2);
-INSERT INTO Rides VALUES ('C', 'North', 'SOUTH', '1-1-2019', '16:00:00', 2);
+INSERT INTO Rides VALUES ('C', 'NORTH', 'SOUTH', '1-1-2019', '16:00:00', 2);
 INSERT INTO Rides VALUES ('D', 'SOUTH', 'WEST', '1-1-2019', '12:00:00', 2);
 INSERT INTO Rides VALUES ('E', 'CENTRAL', 'EAST', '1-1-2019', '14:00:00', 2);
 
@@ -179,7 +179,7 @@ INSERT INTO Rides VALUES ('E', 'CENTRAL', 'EAST', '1-1-2019', '14:00:00', 2);
 INSERT INTO Rides VALUES ('E', 'CENTRAL', 'EAST', '1-1-2019', '09:00:00', 2, true);
 
 -- test for bid > capacity + different prices
-INSERT INTO Bids VALUES ('E', 'A', 'EAST', 'NORTH', '1-1-2019', '12:00:00', '10');
+INSERT INTO Bids VALUES ('E', 'A', 'EAST', 'NORTH', '1-1-2019', '12:00:00', '10', true);
 INSERT INTO Bids VALUES ('F', 'A', 'EAST', 'NORTH', '1-1-2019', '12:00:00', '9');
 INSERT INTO Bids VALUES ('G', 'A', 'EAST', 'NORTH', '1-1-2019', '12:00:00', '8');
 
@@ -189,6 +189,7 @@ INSERT INTO Bids VALUES ('J', 'A', 'EAST', 'NORTH', '1-1-2019', '16:00:00', '8')
 
 -- test for bid < capacity
 INSERT INTO Bids VALUES ('E', 'B', 'WEST', 'Central', '1-1-2019', '14:00:00', '10');
+INSERT INTO Bids VALUES ('C', 'B', 'WEST', 'Central', '1-1-2019', '14:00:00', '12');
 
 -- test for all 3 bid same price same ride but > capacity
 INSERT INTO Bids VALUES ('E', 'C', 'NORTH', 'SOUTH', '1-1-2019', '16:00:00', '10');
@@ -217,6 +218,10 @@ INSERT INTO Bookmarks VALUES ('G', 'NORTH', 'SOUTH');
 INSERT INTO Bookmarks VALUES ('H', 'CENTRAL', 'EAST');
 INSERT INTO Bookmarks VALUES ('I', 'EAST', 'NORTH');
 
+# Triggers 
+
+#############################################################################
+# TRIGGER TO DELETE BIDS BY SAME USER ON SAME TIME ONCE ONE OF THE BIDS IS ACCEPTED
 CREATE OR REPLACE FUNCTION check_previous_bid ()
 RETURNS TRIGGER AS $$
 	DECLARE count NUMERIC;
@@ -242,3 +247,134 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER check_bid_insert()
 BEFORE INSERT OR UPDATE ON Bids
 EXECUTE PROCEDURE check_previous_bid();
+
+#############################################################################
+# TRIGGER TO DELETE CLASHING BIDS
+CREATE OR REPLACE FUNCTION check_is_win() 
+RETURNS TRIGGER AS $$
+	BEGIN
+		DELETE FROM Bids b WHERE b.start_time = OLD.start_time AND b.ride_date = OLD.ride_date AND b.puname = OLD.puname AND b.is_win = false;
+		RETURN NULL;
+	END;
+$$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER check_bid
+AFTER UPDATE ON Bids
+FOR EACH ROW EXECUTE PROCEDURE check_is_win();
+
+#############################################################################
+# TRIGGER TO CHECK IF THERE ARE STILL AVAILABLE CAPACITY
+CREATE OR REPLACE FUNCTION check_available_capacity()
+RETURNS TRIGGER AS $$
+  DECLARE countWin NUMERIC; countCapacity NUMERIC;
+  
+  BEGIN
+  
+  SELECT r.capacity INTO countCapacity FROM Rides r WHERE r.username = NEW.duname
+  AND r.pickup = NEW.pickup
+  AND r.dropoff = NEW.dropoff
+  AND r.ride_date = NEW.ride_date
+  AND r.start_time = NEW.start_time
+  AND r.is_complete = false;
+
+  SELECT COUNT(*) INTO countWin FROM Bids b WHERE b.duname = NEW.duname
+  AND b.pickup = NEW.pickup
+  AND b.dropoff = NEW.dropoff
+  AND b.ride_date = NEW.ride_date
+  AND b.start_time = NEW.start_time
+  AND b.is_win = true;
+
+  IF countWin < countCapacity
+  THEN 
+  RETURN NEW;
+
+  ELSE 
+  RAISE NOTICE 'Capacity is full!';
+  RETURN NULL;
+  END IF;
+
+
+END; $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_capcity
+BEFORE INSERT ON Bids
+FOR EACH ROW EXECUTE PROCEDURE check_available_capacity();
+
+#############################################################################
+# TRIGGER TO CHECK IF DRIVER IS VERIFIED
+CREATE OR REPLACE FUNCTION driver_verify_check()
+RETURNS TRIGGER AS $$
+
+  BEGIN
+  DECLARE count NUMERIC;
+  SELECT COUNT(*) INTO count FROM Verify v WHERE v.duname = NEW.duname AND is_verified = true;
+  
+  IF count = 1
+  THEN
+  RETURN NEW;
+  ELSE
+  RAISE NOTICE 'DRIVER IS NOT VERIFIED';
+  RETURN NULL;
+  ENDIF;
+
+END; $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_if_verified
+BEFORE INSERT ON Rides
+FOR EACH ROW EXECUTE PROCEDURE driver_verify_check();
+
+#############################################################################
+# TRIGGER ADD TO BOOKMARKS
+CREATE OR REPLACE FUNCTION bookmark_location()
+RETURNS TRIGGER AS $$
+  DECLARE count NUMERIC;
+  BEGIN
+
+  SELECT COUNT(*) INTO count FROM Bids b
+  WHERE NEW.puname = b.puname AND
+  NEW.pickup = b.pickup AND
+  NEW.dropoff = b.dropoff;
+
+  IF count = 5
+  THEN 
+  INSERT INTO Bookmarks VALUES(NEW.puname, NEW.pickup, NEW.dropoff);
+
+
+  END IF;
+  
+  RETURN NEW;
+
+END; $$LANGUAGE plpgsql;
+
+
+CREATE TRIGGER check_if_bookmark
+AFTER INSERT ON Bids
+FOR EACH ROW EXECUTE PROCEDURE bookmark_location();
+
+#############################################################################
+# TRIGGER TO ADD TO FAVOURITE DRIVERS
+CREATE OR REPLACE FUNCTION recommend_driver()
+RETURNS TRIGGER AS $$
+  DECLARE count NUMERIC;
+  BEGIN
+
+  SELECT COUNT(*) INTO count FROM Bids b
+  WHERE NEW.puname = b.puname AND
+  NEW.duname = b.duname AND
+  b.is_win = NEW.is_win AND 
+  b.is_win = 't'; 
+
+  IF count = 5
+  THEN 
+  INSERT INTO Likes VALUES(NEW.puname, NEW.duname);
+
+  END IF;
+  
+  RETURN NEW;
+
+END; $$LANGUAGE plpgsql;
+
+CREATE TRIGGER check_if_likes
+AFTER UPDATE ON Bids
+FOR EACH ROW EXECUTE PROCEDURE recommend_driver();
+#############################################################################
