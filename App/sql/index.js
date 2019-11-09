@@ -4,7 +4,7 @@ const sql = {}
 sql.query = {
 
 	
-	all_rides: 'SELECT * FROM RIDES WHERE is_complete = FALSE',
+	all_rides: 'SELECT * FROM RIDES WHERE is_complete = FALSE AND username <> $1',
 	check_username: 'SELECT * FROM Users where username = $1',
 	add_user: 'INSERT INTO users (username, name, password) VALUES($1, $2, $3)',
 	add_driver: 'INSERT INTO driver (username, name) VALUES ($1, $2)',

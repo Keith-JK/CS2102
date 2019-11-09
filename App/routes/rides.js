@@ -10,7 +10,8 @@ const pool = new Pool ({
 
 // get testpage
 router.get('/', function(req, res, next) {
-	pool.query(sql_query.query.all_rides, (err, data) => {
+	var user = global.user
+	pool.query(sql_query.query.all_rides, [user], (err, data) => {
 		if (err) {
     		throw err
   		}
