@@ -20,7 +20,6 @@ const pool = new Pool ({
 
 /* PAGES FOR THE PROJECT */
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var driverRouter = require('./routes/driver');
 var awaitingApprovalRouter = require('./routes/awaitingApproval');
 var registerDriverRouter = require('./routes/registerDriver');
