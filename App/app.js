@@ -187,9 +187,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+/*
 // uncomment this if using nodemon / node, else if node bin/www, leave it commented
 var server = app.listen(3000, function() {
   console.log('Listening on port %d', server.address().port);
 }); 
+*/
 
 module.exports = app;
